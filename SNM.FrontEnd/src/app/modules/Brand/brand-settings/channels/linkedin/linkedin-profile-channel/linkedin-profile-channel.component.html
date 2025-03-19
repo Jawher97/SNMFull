@@ -1,0 +1,63 @@
+<div class="flex flex-col flex-auto md:w-240 md:min-w-240 ">
+    <div class="text-2xl font-semibold leading-tight">Add a LinkedIn Profile and/or a LinkedIn Business Page to this
+        Brand</div>
+    <ng-container *ngIf="linkedinProfileData$ | async as profile; else loading">
+
+        <div class="m-4">
+            <div class="flex flex-col mt-5">
+                <div class="text-2xl font-semibold leading-tight">Add a LinkedIn Profile:</div>
+
+                <div class="flex items-center ">
+                    <mat-checkbox class="my-1" [color]="'primary'"> </mat-checkbox>
+                    <img class="w-14 h-14 mr-4 rounded-full" src={{profile.coverPhoto}} alt="Card cover image">
+                    <div class="flex flex-col min-w-0">
+                        <div class="font-medium leading-none"><a
+                                href={{profile.linkedinProfileLink}}>{{profile.fullName}}</a></div>
+                        <div class="text-md leading-none text-secondary mt-1">500+ followers</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="flex flex-col mt-5">
+                <div class="text-2xl font-semibold leading-tight">Add a Social Network Management Page associated with
+                    this account:</div>
+                <ng-container *ngFor="let page of profile.channels; trackBy: trackByFn">
+
+
+                    <div class="flex items-center ">
+                        <mat-checkbox class="my-1" [color]="'primary'"> </mat-checkbox>
+                        <img class="w-14 h-14 mr-4 rounded-full" src={{page.coverPhoto}} alt="Card cover image">
+                        <div class="flex flex-col min-w-0">
+                            <div class="font-medium leading-none"><a
+                                    href={{page.companyProfileUrl}}>{{page.companyName}}</a></div>
+                            <div class="text-md leading-none text-secondary mt-1">500+ followers</div>
+                        </div>
+                    </div>
+
+
+                </ng-container>
+            </div>
+            <!-- Add Actions -->
+            <ng-container *ngIf="linkedinProfileData$">
+                <div class="flex items-center justify-end mt-4">
+                    <!-- Close -->
+                    <button mat-flat-button matDialogClose (click)="close()">
+                        Cancel
+                    </button>
+                    <!-- Save -->
+                    <button mat-flat-button [color]="'primary'" [disabled]="false" (click)="save()">
+                        Add
+                    </button>
+
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
+
+
+    <!-- Loading template -->
+    <ng-template #loading>
+        <div class="flex flex-auto flex-col items-center justify-center bg-gray-100 dark:bg-transparent">
+            <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">Loading...</div>
+        </div>
+    </ng-template>

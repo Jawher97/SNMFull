@@ -1,0 +1,52 @@
+<fuse-card class="flex flex-col max-w-80 w-full h-75 px-8 pt-6 pb-6 filter-list" style="margin: 16px;">
+    <div class="flex items-center justify-between">
+
+        <mat-icon class="icon-size-10 text-primary-500 dark:text-primary-300"
+         
+                [svgIcon]="'feather:'+channelType.icon" 
+            ></mat-icon>
+
+        <div class="flex flex-col">
+            <div class="text-2xl font-semibold leading-tight">{{channelType?.name}}</div>
+            <!-- <div class="text-md text-secondary">Permission {{linkedInProfile?.fullName}}</div> -->
+        </div>
+    </div>
+    <ng-container *ngFor="let channel of channelType.channels; trackBy: trackByFn">
+        <div class="flex flex-col mt-5">
+
+            <a href="{{channel?.link}}" target="_blank"> 
+            
+            <div class="flex items-center ">
+                
+                  
+                    <img *ngIf="channel?.photo" class="w-14 h-14 mr-4 rounded-full" src="{{channel?.photo}}"
+                    alt="Card cover image">
+                    <mat-icon *ngIf="!channel?.photo" class="icon-size-10 text-primary-500 dark:text-primary-300"
+         
+                    [svgIcon]="'feather:'+channelType.icon" 
+                ></mat-icon>
+                <div class="flex flex-col min-w-0">
+                    <div class="font-medium leading-none">{{channel.displayName}}</div>
+                    <div class="text-md leading-none text-secondary mt-1">3 mutual friends</div>
+                </div>
+            </div>
+        </a>
+        </div>
+    </ng-container>
+    <div class="text-2xl font-semibold leading-tight text-center mt-6">
+        <!-- <a class="px-6" mat-flat-button [color]="'primary'" (click)="connected ? logOut() : login()">
+          {{ connected ? 'Disconnect' : 'Connect With LinkedIn' }}
+        </a> -->
+        <a *ngIf="channelType.channels.length!=0"class="px-6" mat-flat-button [color]="'primary'" (click)="logOut(channelType.channels) "  matTooltip="Connect Your LinkedIn Profile">
+         <!-- {{ 'Connect Profile' }} -->
+          Disconnect
+        </a>
+        <a *ngIf="channelType.channels.length==0"class="px-6" mat-flat-button [color]="'primary'" (click)="login(channelType?.name) "  matTooltip="Connect Your LinkedIn Profile">
+            <!-- {{ 'Connect Profile' }} -->
+             Connect
+           </a>
+        <!-- :login(channelType?.name) -->
+      </div>
+      <!-- <p >{{accessToken}}</p> -->
+      <!-- <p id="demo"></p> -->
+</fuse-card>

@@ -1,0 +1,53 @@
+/* Your existing styles */
+// .emoji-picker-container {
+//   position: relative; /* Set to relative */
+//   z-index: 1; /* Ensure it appears on top of other elements */
+// }
+
+// .emoji-picker-scroll {
+//   max-height: 200px; /* Adjust as needed */
+//   overflow-y: auto; /* Add a scrollbar if needed */
+// }
+
+// .emoji-mart-emoji {
+//   font-size: 24px;
+// }
+.emoji-picker-wrapper {
+  position: relative;
+}
+
+.emoji-picker-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999; /* Set a high z-index to ensure it appears on top of other elements */
+  background: rgba(255, 255, 255, 0.8); /* Adjust the background color and opacity as needed */
+  border: 1px solid #ccc; /* Add a border for visibility */
+  padding: 10px; /* Adjust padding as needed */
+  border-radius: 8px; /* Add border-radius for rounded corners */
+}
+.mat-mdc-tab-group {
+  flex-direction: row !important;
+}
+.mat-mdc-tab-header {
+  border-bottom: none!important;
+}
+.mat-mdc-tab-header-pagination {
+  display: none !important;
+}
+.mat-mdc-tab-labels {
+  flex-direction: column!important;
+}
+.mat-mdc-ink-bar {
+  height: 100%!important;
+  left: 98% !important;
+}
+.mat-mdc-tab-body-wrapper {
+  flex: 1 1 auto!important;
+}
+.mat-mdc-tab-group{
+  background-color: white;
+}
+.mat-mdc-tab-label-container{
+  margin: 0!important;
+}

@@ -1,0 +1,155 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:7283"
+  },
+  "Routes": [
+    /**** MultiTenancy ****/
+    {
+      "UpstreamPathTemplate": "/gateway/multiTenancy",
+      "UpstreamHttpMethod": [ "Get" ],
+
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44318
+        }
+      ]
+    },
+
+    /**** Facebook ****/
+    {
+      "UpstreamPathTemplate": "/gateway/facebook",
+      "UpstreamHttpMethod": [ "Get" ],
+
+      "DownstreamPathTemplate": "/api/v1/facebook",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 443 35
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/facebook/{id}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ],
+      "DownstreamPathTemplate": "/api/facebook/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44335
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/facebook",
+      "UpstreamHttpMethod": [ "Post", "Put" ],
+      "DownstreamPathTemplate": "/api/facebook",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44335
+        }
+      ]
+    },
+
+    /**** LinkedIn ****/
+    {
+      "UpstreamPathTemplate": "/gateway/linkedin",
+      "UpstreamHttpMethod": [ "Get" ],
+
+      "DownstreamPathTemplate": "/api/v1/linkedin",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44306
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/linkedin/{id}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ],
+      "DownstreamPathTemplate": "/api/linkedin/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44306
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/linkedin",
+      "UpstreamHttpMethod": [ "Post", "Put" ],
+      "DownstreamPathTemplate": "/api/linkedin",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44306
+        }
+      ]
+    }
+
+
+  ]
+}
+
+//{
+//  "Routes": [
+//    {
+//      "DownstreamPathTemplate": "/products",
+//      "DownstreamScheme": "https",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 7109
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/manufacture/products",
+//      "UpstreamHttpMethod": [ "Get", "Post" ]
+//    },
+//    {
+//      "DownstreamPathTemplate": "/orders",
+//      "DownstreamScheme": "https",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 7013
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/sales/orders",
+//      "UpstreamHttpMethod": [ "Get", "Post" ]
+//    },
+//    {
+//      "DownstreamPathTemplate": "/products/{id}",
+//      "DownstreamScheme": "https",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 7109
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/manufacture/products/{id}",
+//      "UpstreamHttpMethod": [ "Get", "Post" ]
+//    },
+//    {
+//      "DownstreamPathTemplate": "/orders/{id}",
+//      "DownstreamScheme": "https",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 7013
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/sales/orders/{id}",
+//      "UpstreamHttpMethod": [ "Get", "Post" ]
+//    }
+//  ],
+//  "GlobalConfiguration": {}
+//}

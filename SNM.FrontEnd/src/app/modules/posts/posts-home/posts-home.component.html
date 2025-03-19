@@ -1,0 +1,406 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <!-- <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500">Social</a>
+                </div>
+            </div> -->
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    Recent Posts
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+        <mat-drawer-container class="flex-auto h-full bg-card dark:bg-transparent">
+
+            <!-- LinkedIn Drawer -->
+            <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [mode]="'over'" [opened]="false" [position]="'end'"
+                [disableClose]="false" #linkedInMatDrawer>
+                <!-- <button class=" m-1" mat-icon-button (click)="linkedInMatDrawer.close()">
+                    <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                </button> -->
+                <!-- <linkedin-post-details  [drawer]="linkedInMatDrawer"></linkedin-post-details> -->
+            </mat-drawer>
+            <!-- Instagram Drawer -->
+            <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [mode]="'over'" [opened]="false" [position]="'end'"
+                [disableClose]="false" #instaMatDrawer>
+                <!-- <router-outlet></router-outlet> -->
+                <button class=" m-1" mat-icon-button (click)="instaMatDrawer.close()">
+                    <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                </button>
+                <instagram-post-details ></instagram-post-details>
+            </mat-drawer>
+            <mat-drawer class="w-full md:w-160 dark:bg-gray-900" [mode]="'over'" [opened]="false" [position]="'end'"
+                [disableClose]="false" #facebookMatDrawer>
+                <!-- <router-outlet></router-outlet> -->
+                <button class=" m-1" mat-icon-button (click)="facebookMatDrawer.close()">
+                    <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                </button>
+                <facebook-post-details></facebook-post-details>
+            </mat-drawer>
+            
+            
+            
+            
+            
+            
+            
+            
+            <mat-drawer-content class="flex flex-col">
+                <!-- Main -->
+                <div class="flex-auto p-6 sm:p-10 ">
+                    <div class="mb-6 sm:mb-12">
+                        <mat-button-toggle-group class="flex flex-wrap -m-2" [(ngModel)]="selectedFilter"
+                            (change)="onFilterChange($event)">
+                            <ng-container *ngFor="let filter of filters">
+                                <mat-button-toggle class="m-2" [value]="filter">
+                                    <span class="text-secondary">{{filter | titlecase}}</span>
+                                    <span class="ml-1.5 font-medium text-secondary">({{numberOfCards[filter]}})</span>
+                                </mat-button-toggle>
+                            </ng-container>
+                        </mat-button-toggle-group>
+                    </div>
+
+                    <div class="flex flex-wrap items-start w-full max-w-400 -m-4">
+
+                        <!-- LinkedIn Post Card #33 -->
+                        <fuse-card class="flex flex-col max-w-80 w-full filter-LinkedIn" (click)="linkedInToggle(latestLinkedinpost)">
+                            <div class="flex items-center max-w-80 w-full p-6 pb-3 filter-info">
+                                <img class="w-16 h-16 mr-6 rounded-full" src="assets/images/avatars/male-04.jpg"
+                                    alt="LinkedIn Profile">
+                                <div class="flex flex-col">
+                                    <div class="text-2xl font-semibold leading-tight">
+                                        {{latestLinkedinpost?.author_username}}</div>
+                                    <div class="text-md leading-tight text-primary">Via:
+                                        {{latestLinkedinpost?.author_username}}
+                                    </div>
+                                    <div class="text-md text-secondary mt-2">{{latestLinkedinpost?.createdAt
+                                        |date:'short'}}
+                                    </div>
+                                </div>
+                                <button class="ml-auto -mr-4" mat-icon-button [matMenuTriggerFor]="postCardMenu09">
+                                    <mat-icon class="icon-size-5"
+                                        [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                                </button>
+                                <mat-menu #postCardMenu09="matMenu">
+                                    <button mat-menu-item>
+                                        <span class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-3"
+                                                [svgIcon]="'heroicons_solid:save'"></mat-icon>
+                                            <span>Edit post</span>
+                                        </span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <span class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-3"
+                                                [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                                            <span>Hide post</span>
+                                        </span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <span class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-3"
+                                                [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                            <span>Snooze for 30 days</span>
+                                        </span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <span class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-3"
+                                                [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                                            <span>Hide all</span>
+                                        </span>
+                                    </button>
+                                    <mat-divider class="my-2"></mat-divider>
+                                    <button mat-menu-item>
+                                        <span class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-3"
+                                                [svgIcon]="'heroicons_solid:exclamation'"></mat-icon>
+                                            <span>Report post</span>
+                                        </span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <span class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-3"
+                                                [svgIcon]="'heroicons_solid:bell'"></mat-icon>
+                                            <span>Turn on notifications for this post</span>
+                                        </span>
+                                    </button>
+                                </mat-menu>
+                            </div>
+                            <hr class="w-full border-t my-6">
+                            <img class="object-cover h-40" src={{latestLinkedinpost?.mediaUrl}} alt="Card cover image">
+                            <div class="m-8 mb-4">
+
+                                <div class="text-lg italic leading-relaxed">
+                                    {{latestLinkedinpost?.message}}
+                                </div>
+
+                                <hr class="border-b my-4">
+                                <div class="flex flex-wrap text-md">
+                                    <span class="whitespace-nowrap"><b>{{latestLinkedinpost?.insight.totalLikes}}</b>
+                                        Likes</span>
+                                    <span class="text-secondary mx-2">&bull;</span>
+                                    <span class="whitespace-nowrap"><b>{{latestLinkedinpost?.insight.totalComments}}</b>
+                                        Comments</span>
+                                    <span class="text-secondary mx-2">&bull;</span>
+                                    <span class="whitespace-nowrap"><b>{{latestLinkedinpost?.insight.engagement}}</b>
+                                        Engagement</span>
+                                    <span class="text-secondary mx-2">&bull;</span>
+                                    <span class="whitespace-nowrap"><b>{{latestLinkedinpost?.insight.shareCount}}</b>
+                                        Share</span>
+                                    <span class="text-secondary mx-2">&bull;</span>
+                                    <span class="whitespace-nowrap"><b>{{latestLinkedinpost?.insight.clickCount}}</b>
+                                        click</span>
+                                    <span class="text-secondary mx-2">&bull;</span>
+                                    <span
+                                        class="whitespace-nowrap"><b>{{latestLinkedinpost?.insight.impressionCount}}</b>
+                                        Impression</span>
+                                    <span class="text-secondary mx-2">&bull;</span>
+                                    <span class="whitespace-nowrap"><b>{{latestLinkedinpost?.insight.videoViews}}</b>
+                                        Video
+                                        Views</span>
+                                </div>
+
+                            </div>
+                        </fuse-card>
+                        <!--Latest Instagram Post-->
+                        <!-- <div class="flex-1 px-2 space-y-4"> -->
+                        <fuse-card class="flex flex-col max-w-80 w-full filter-Instagram">
+
+                            <div class="flex items-center mx-6 sm:mx-8 mt-6 mb-4">
+                                <!-- <img
+                                class="w-10 h-10 rounded-full mr-4"
+                                src="assets/images/avatars/male-04.jpg"
+                                alt="Card cover image"> -->
+                                <img class="w-16 h-16 mr-6 rounded-full" src="assets/images/avatars/male-04.jpg"
+                                    alt="Instagram profile">
+                                <div class="flex flex-col">
+                                    <span class="font-semibold leading-none">{{ instagramPosts?.username }}</span>
+                                    <span class="text-sm text-secondary leading-none mt-1">{{ instagramPosts?.timestamp
+                                        |
+                                        date:'short' }}</span>
+                                </div>
+                                <button class="ml-auto -mr-4" mat-icon-button (click)="instaToggle(instagramPosts)">
+                                    <!-- <button class="ml-auto -mr-4" mat-icon-button (click)="matDrawer.toggle(instagramPosts)"> -->
+                                    D
+                                </button>
+                                <button class="ml-auto -mr-4" mat-icon-button [matMenuTriggerFor]="postCardMenu09">
+                                    <mat-icon class="icon-size-5"
+                                        [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                                </button>
+                                <mat-menu #postCardMenu09="matMenu">
+                                    <button mat-menu-item (click)="openDetail()">
+                                        <span class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-3"
+                                                [svgIcon]="'heroicons_solid:save'"></mat-icon>
+                                            <span>Edit post</span>
+                                        </span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <span class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-3"
+                                                [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                                            <span>Hide post</span>
+                                        </span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <span class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-3"
+                                                [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                            <span>Snooze for 30 days</span>
+                                        </span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <span class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-3"
+                                                [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                                            <span>Hide all</span>
+                                        </span>
+                                    </button>
+                                    <mat-divider class="my-2"></mat-divider>
+                                    <button mat-menu-item>
+                                        <span class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-3"
+                                                [svgIcon]="'heroicons_solid:exclamation'"></mat-icon>
+                                            <span>Report post</span>
+                                        </span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <span class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-3"
+                                                [svgIcon]="'heroicons_solid:bell'"></mat-icon>
+                                            <span>Turn on notifications for this post</span>
+                                        </span>
+                                    </button>
+                                </mat-menu>
+                            </div>
+                            <hr class="border-b mx-6 sm:mx-8 mt-4 mb-6">
+                            <!-- Media -->
+                            <ng-container *ngIf="instagramPosts?.media_url">
+                                <img *ngIf="instagramPosts?.media_type==='IMAGE'" class="w-full object-cover h-40"
+                                    [src]="instagramPosts?.media_url">
+                                <img *ngIf="instagramPosts?.media_type==='VIDEO'" class="w-full object-cover h-40"
+                                    [src]="instagramPosts?.thumbnail_url">
+                                <!-- <video *ngIf="instagramPosts?.media_type==='VIDEO'" class="relative flex h-30 w-50 " [src]="item.media_url"
+                        controls></video> -->
+                            </ng-container>
+                            <!--  -->
+                            <div class="flex flex-col sm:flex-row sm:items-center mx-6 sm:mx-8 mb-4 sm:mb-6">
+                                <div class="hidden sm:flex flex-auto"></div>
+                                <div class="flex items-center mt-4 sm:mt-0">
+                                    <button class="px-3 mr-1 -ml-2 sm:ml-0" mat-button>
+                                        likes
+                                    </button>
+
+                                    <!-- <button (click)="showComments(instagramPosts)" class="px-3 sm:-mr-3" mat-button>
+                                comments
+                            </button> -->
+
+                                </div>
+                            </div>
+                        </fuse-card>
+                        <!-- </div> -->
+                        <!--Latest Facebook Post-->
+                        <fuse-card class="flex flex-col max-w-80 w-full filter-Facebook">
+                            <div class="flex items-center mx-6 sm:mx-8 mt-6 mb-4">
+                                <img class="w-16 h-16 mr-6 rounded-full" src="assets/images/avatars/male-04.jpg"
+                                    alt="Facebook Page">
+                                <div class="flex flex-col">
+                                    <div class="text-2xl font-semibold leading-tight">{{latestFacebookPost?.from?.name}}
+                                    </div>
+                                    <div class="text-md leading-tight text-primary">Via:
+                                        {{latestFacebookPost?.from?.name}}
+                                    </div>
+                                    <div class="text-md text-secondary mt-2">{{latestFacebookPost?.updated_time
+                                        |date:'short'}}</div>
+                                </div>
+                                <button class="ml-auto -mr-4" mat-icon-button
+                                    (click)="FacebookToggle(latestFacebookPost)">
+                                    <!-- <button class="ml-auto -mr-4" mat-icon-button (click)="matDrawer.toggle(instagramPosts)"> -->
+                                    D
+                                </button>
+                                <button class="ml-auto -mr-4" mat-icon-button [matMenuTriggerFor]="postCardMenu09">
+                                    <mat-icon class="icon-size-5"
+                                        [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                                </button>
+                                <mat-menu #postCardMenu09="matMenu">
+                                    <button mat-menu-item>
+                                        <span class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-3"
+                                                [svgIcon]="'heroicons_solid:save'"></mat-icon>
+                                            <span>Edit post</span>
+                                        </span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <span class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-3"
+                                                [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                                            <span>Hide post</span>
+                                        </span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <span class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-3"
+                                                [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                            <span>Snooze for 30 days</span>
+                                        </span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <span class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-3"
+                                                [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                                            <span>Hide all</span>
+                                        </span>
+                                    </button>
+                                    <mat-divider class="my-2"></mat-divider>
+                                    <button mat-menu-item>
+                                        <span class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-3"
+                                                [svgIcon]="'heroicons_solid:exclamation'"></mat-icon>
+                                            <span>Report post</span>
+                                        </span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <span class="flex items-center">
+                                            <mat-icon class="icon-size-5 mr-3"
+                                                [svgIcon]="'heroicons_solid:bell'"></mat-icon>
+                                            <span>Turn on notifications for this post</span>
+                                        </span>
+                                    </button>
+                                </mat-menu>
+                            </div>
+
+
+
+                            <hr class="border-b mx-6 sm:mx-8 mt-4 mb-6">
+
+                            <!-- Media -->
+                            <ng-container *ngIf="latestFacebookPost?.full_picture">
+                                <img *ngIf="latestFacebookPost?.status_type==='added_photos'"
+                                    class="w-full object-cover h-40" [src]="latestFacebookPost?.full_picture">
+                                <img *ngIf="latestFacebookPost?.status_type==='VIDEO'" class="w-full object-cover h-40"
+                                    [src]="latestFacebookPost?.thumbnail_url">
+                                <!-- <video *ngIf="instagramPosts?.media_type==='VIDEO'" class="relative flex h-30 w-50 " [src]="item.media_url"
+                        controls></video> -->
+                            </ng-container>
+
+                            <div class="m-8 mb-4">
+
+                                <div class="text-lg italic leading-relaxed">
+                                    {{latestFacebookPost?.message}}
+                                </div>
+                                <ng-container *ngIf="latestFacebookPost?.insight">
+                                    <hr class="border-b my-4">
+                                    <div class="flex flex-wrap text-md">
+                                        <span
+                                            class="whitespace-nowrap"><b>{{latestFacebookPost?.insight.totalLikes}}</b>
+                                            Likes</span>
+                                        <span class="text-secondary mx-2">&bull;</span>
+                                        <span
+                                            class="whitespace-nowrap"><b>{{latestFacebookPost?.insight.totalComments}}</b>
+                                            Comments</span>
+                                        <span class="text-secondary mx-2">&bull;</span>
+                                        <span
+                                            class="whitespace-nowrap"><b>{{latestFacebookPost?.insight.engagement}}</b>
+                                            Engagement</span>
+                                        <span class="text-secondary mx-2">&bull;</span>
+                                        <span
+                                            class="whitespace-nowrap"><b>{{latestFacebookPost?.insight.shareCount}}</b>
+                                            Share</span>
+                                        <span class="text-secondary mx-2">&bull;</span>
+                                        <span
+                                            class="whitespace-nowrap"><b>{{latestFacebookPost?.insight.clickCount}}</b>
+                                            click</span>
+                                        <span class="text-secondary mx-2">&bull;</span>
+                                        <span
+                                            class="whitespace-nowrap"><b>{{latestFacebookPost?.insight.impressionCount}}</b>
+                                            Impression</span>
+                                        <span class="text-secondary mx-2">&bull;</span>
+                                        <span
+                                            class="whitespace-nowrap"><b>{{latestFacebookPost?.insight.videoViews}}</b>
+                                            Video
+                                            Views</span>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </fuse-card>
+                       
+
+                    </div>
+
+                </div>
+            </mat-drawer-content>
+
+        </mat-drawer-container>
+
+    </div>
+</div>

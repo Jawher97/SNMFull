@@ -1,0 +1,1 @@
+﻿global using SNS.Facebook.Domain.Common.Contracts;

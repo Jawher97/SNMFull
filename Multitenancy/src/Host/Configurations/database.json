@@ -1,0 +1,7 @@
+{
+  "DatabaseSettings": {
+    "DBProvider": "mssql",
+    "ConnectionString": "Data Source=localhost;Initial Catalog=preReleaseTest;Trusted_Connection=True;MultipleActiveResultSets=true;User ID=sa;Password=123456"
+    //"ConnectionString": "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=preReleaseTest;Integrated Security=True;MultipleActiveResultSets=True"
+  }
+}

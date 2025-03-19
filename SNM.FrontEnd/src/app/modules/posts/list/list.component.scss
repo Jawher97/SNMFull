@@ -1,0 +1,39 @@
+
+.relative-img:hover {
+    cursor: pointer;
+    transition: box-shadow 0.5s;
+}
+
+.relative-img:hover img {
+    box-shadow: 0 30px 30px rgba(0, 0, 0, 0.5);
+}
+.video-shadow {
+
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); 
+    transition: box-shadow 0.3s; 
+}
+
+.video-shadow:hover {
+    
+    box-shadow: 0 30px 30px rgba(0, 0, 0, 0.5);
+}
+.image-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .image {
+    display: block;
+   
+   
+  }
+  
+  .overlay-icon {
+    position: relative;
+    top: auto;
+    left: 10%;
+    transform: translate(-50%, -50%);
+    z-index: 1; /* Ensure the icon appears on top of the image */
+   
+  }
+  

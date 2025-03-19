@@ -1,0 +1,1 @@
+﻿global using Multitenancy.Domain.Common.Contracts;

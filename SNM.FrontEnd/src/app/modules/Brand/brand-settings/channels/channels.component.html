@@ -1,0 +1,39 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+          <!-- New post -->
+          <button
+          class="ml-4 px-1 sm:px-4 min-w-10"
+          mat-flat-button
+          [color]="'primary'"
+          (click)="addNewPost()">
+          <mat-icon
+              class="icon-size-5"
+              [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
+          <span class="hidden sm:inline-block ml-2">New post</span>
+      </button>
+        <div class="flex flex-wrap items-start w-full max-w-400 -m-4">
+           
+       
+
+            <ng-container *ngFor="let channelType of channelTypeList; trackBy: trackByFn">
+                <app-social-channel style="margin: 16px;"
+                [channelType]="channelType" [success]="success"></app-social-channel>
+            </ng-container>
+            <!-- <facebook-login style="margin: 16px;"></facebook-login> -->
+            <!-- <facebook-pages style="margin: 16px;"></facebook-pages>
+            <facebook-group style="margin: 16px;"></facebook-group>
+
+            <instagram style="margin: 16px;"></instagram> -->
+            <!-- <instagramlogin style="margin: 16px;"></instagramlogin> -->
+            <!-- <linkedin-profile-connection style="margin: 16px;"></linkedin-profile-connection>
+            <linkedin-company-pages style="margin: 16px;"></linkedin-company-pages>
+            <linkedIn-login style="margin: 16px;"></linkedIn-login>
+
+            <twitter-login style="margin: 16px;"></twitter-login> -->
+
+
+
+        </div>
+    </div>
+</div>

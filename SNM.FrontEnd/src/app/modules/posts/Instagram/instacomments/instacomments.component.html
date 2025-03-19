@@ -1,0 +1,112 @@
+
+
+<!-- Card #25 -->
+
+<fuse-card class="flex flex-col max-w-160 w-full px-8 pt-6 pb-6 filter-list" style="margin: 16px;">
+
+  <div class="flex items-center justify-between">
+
+       
+
+      <mat-icon class="icon-size-10 text-primary-500 dark:text-primary-300"
+
+          ></mat-icon>
+
+
+
+
+    <div>
+
+        <div>
+            <a>
+                <div class="post-container">
+                    <div class="post-header">
+                      <h2><b>{{ instagramPosts.username }}</b></h2>
+                    </div>
+                    <div class="post-content">
+                      <ng-container *ngIf="instagramPosts.media_url">
+                        <img
+                            class="w-full object-cover"
+                            [src]="instagramPosts.media_url">
+                    </ng-container>
+
+                        
+                    </div>
+                    <p>{{ instagramPosts.caption }}</p>
+
+                    <div class="flex items-center text-sm text-secondary mt-2">  
+
+                      <span 
+                            
+                            class="mr-2 cursor-pointer hover:underline"
+                            ><mat-icon>thumb_up_alt</mat-icon></span> 
+                
+                    </div>
+
+                  </div>
+
+            </a>
+        </div> 
+
+    </div>      
+
+    </div>
+
+ 
+
+      <!-- Card #68 -->
+
+      <fuse-card class="flex flex-col max-w-140 w-full filter-post">
+
+        <commentForm
+                submitLabel="Reply">
+        </commentForm>
+
+        <hr class="border-b mx-4 sm:mx-8 my-0">
+
+        <div class="max-h-120 overflow-y-auto">
+
+          <ng-container *ngFor="let comment of commentsList; trackBy: trackByFn">
+
+             <div class="relative flex flex-col mx-4 sm:mx-8 my-6">
+
+                <div class="flex items-start">    
+            
+                    <comment 
+                    [comment]="comment"                    
+                    [activeComment]="activeComment"
+                    (setActiveComment)="setActiveComment($event)"            
+                    (addComment)="addComment($event)"
+                    (deleteComment)="deleteComment($event)">
+                    (like)="like($event)"
+                </comment>
+
+                </div>
+
+               
+
+               
+
+            </div></ng-container>
+
+        </div>
+
+    </fuse-card>
+
+  <!-- </ng-container> -->
+
+  <!-- Loading template -->
+
+  <ng-template #loading>
+
+      <div class="flex flex-auto flex-col items-center justify-center bg-gray-100 dark:bg-transparent">
+
+          <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">Loading...</div>
+
+      </div>
+
+  </ng-template>
+
+</fuse-card>
+
+

@@ -1,0 +1,51 @@
+                 
+   <div class="comment-content">
+    <span>
+        <b>SNM</b>
+        <div class="text-md leading-none text-secondary mt-1"></div><br>
+        <div><p>{{comment.text}}</p></div>
+    </span>
+        
+        <div class="flex items-center text-sm text-secondary mt-2"> 
+            <span 
+              class="mr-2">
+              <mat-icon>thumb_up_alt</mat-icon><span class="mr-2">{{comment.like_count}}</span>
+            </span>                               
+            <span 
+                    class="mr-2 cursor-pointer hover:underline" 
+                    (click)="setActiveComment.emit({id: comment.id, type:activeCommentType.replying})">
+                    Reply
+            </span>
+            <span 
+                    class="mr-2 cursor-pointer hover:underline" >
+                    Edit
+            </span>            
+            <span 
+                    (click)="deleteComment.emit(comment.id)"
+                    class="mr-2 cursor-pointer hover:underline">
+                     Delete
+            </span>
+            
+        </div>
+        <commentForm 
+              *ngIf="isReplying()"
+              submitLabel="Reply"
+              (handleSubmit)="addComment.emit({ message: $event, igCommentId: replyId })">
+        </commentForm>
+        
+
+    </div>
+
+<ng-container *ngIf="(replies$ | async) as replies">
+    <ng-container *ngFor="let reply of replies; trackBy: trackByFn">
+      <div class="flex items-start mt-8 ml-12">
+        <comment 
+            [comment]="reply"
+            (addComment)="addComment.emit($event)"
+            (deleteComment)="deleteComment.emit($event)">
+            (like)="like.emit($event)"
+            </comment>
+
+      </div>  
+    </ng-container>
+</ng-container>

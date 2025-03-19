@@ -1,0 +1,281 @@
+<div class="flex flex-col flex-auto  md:w-190 md:min-w-160 -m-6">
+    <ng-container *ngIf="post$ | async as post">
+        <!-- Create Post -->
+        <fuse-card class="flex flex-col max-w-190 w-full p-6 sm:p-8 pb-6"style="overflow-y: auto; max-height: 600px;">
+            <!-- Header -->
+            <div class="group flex items-center">
+
+                <div class="flex items-center justify-start w-full max-w-3xl mx-auto text-xl font-semibold">
+
+                    Create Post
+
+                </div>
+
+                <!-- Close button -->
+
+                <div class="flex items-center justify-end w-full max-w-3xl mx-auto">
+
+                    <a mat-icon-button matDialogClose [matTooltip]="'Close'">
+
+                        <mat-icon class="text-4xl" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+
+                    </a>
+
+                </div>
+            </div>
+
+            <!--Add channel -->
+            <div class="flex flex-wrap items-center -m-1.5 mt-5">
+
+                <!-- Channels panel and its button -->
+                <div class="flex items-center justify-center px-4 m-1.5 rounded-full leading-9 
+                cursor-pointer text-gray-500 bg-gray-100 dark:text-gray-300 dark:bg-gray-700"
+                    (click)="openAddChanelPanel()" #channelsPanelOrigin>
+
+                    <ng-container>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
+                        <span class="ml-1.5 text-md font-medium whitespace-nowrap">Add channel</span>
+                    </ng-container>
+
+                    <!-- channels panel -->
+                    <ng-template #channelsPanel>
+                        <mat-tab-group class="w-100 rounded border shadow-md bg-card"
+                            (selectedTabChange)="selectedType($event)">
+                            <ng-container *ngFor="let type of channelTypeList; trackBy: trackByFn">
+                                <mat-tab label={{type.name}}>
+                                    <!-- Selected channel that will be published on -->
+                                    <ng-container *ngFor="let channel of channelList_Filtred; trackBy: trackByFn">
+                                        <span class="flex items-center" (click)="toggleSelectedChannel(channel)">
+                                            <mat-checkbox class="flex items-center pointer-events-none"
+                                                [color]="'primary'" [checked]="isChannelSelected(channel)"
+                                                disableRipple></mat-checkbox>
+                                            <span class="ml-1 leading-5">{{channel.displayName}}</span>
+                                        </span>
+                                    </ng-container>
+                                </mat-tab>
+                            </ng-container>
+                        </mat-tab-group>
+                    </ng-template>
+
+                </div>
+                <!-- selected chanel -->
+                <ng-container *ngIf="channelList_Selected && channelList_Selected.length">
+                    <div class="flex flex-wrap items-center mx-1 ">
+                        <ng-container *ngFor="let channel of channelList_Selected; trackBy: trackByFn">
+                            <div class="relative flex flex-0 items-center justify-center w-10 h-10 mr-4"
+                                [matTooltip]="channel.displayName">
+                                <!-- icon de reseau social -->
+                                <span
+                                    class="absolute -bottom-1 -right-1 flex-0 w-4 h-4 -ml-0.5 rounded-full ring-2 ring-bg-card dark:ring-gray-900 bg-primary dark:bg-primary-500 text-on-primary ng-star-inserted">
+                                </span>
+                                <!-- delete icon-->
+                                <mat-icon [color]="'accent'"
+                                    class="absolute -top-0 left-0 ml-1 icon-size-4 cursor-pointer"
+                                    [svgIcon]="'heroicons_solid:x-circle'"
+                                    (click)="toggleSelectedChannel(channel)"></mat-icon>
+
+                                <!-- photo reaseau scial -->
+                                <img alt="Contact avatar"
+                                    class="w-full h-full rounded-full object-cover ng-star-inserted"
+                                    src="{{channel.photo|| 'assets/images/avatars/user.png'}}">
+                            </div>
+                        </ng-container>
+                    </div>
+                </ng-container>
+            </div>
+
+            <div class="flex flex-row mt-6 ">
+                <div class="flex flex-col w-4/6">
+                    
+                    <mat-form-field class="flex flex-col w-full " [subscriptSizing]="'dynamic'">
+
+                        <textarea class=" w-full" matInput [placeholder]="'What\'s on your mind?'"
+                            [(ngModel)]="message" [rows]="5" cdkScrollable cdkTextareaAutosize
+                            cdkAutosizeMaxRows="8"></textarea>
+                    </mat-form-field>
+
+                    <!-- Media -->
+                    <ng-container *ngIf="post?.mediaData">
+                        <div class="flex flex-col ">
+                            <div class="flex pt-1">
+                                <ng-container *ngFor="let item of post?.mediaData; let i = index" class="relative flex h-20 pr-1 ml-2">
+                                    <!-- Wrap both the media and delete icon inside a container -->
+                                    <div class="relative">
+                                        <img *ngIf="!isVideo(item.media_type)" class="rounded object-cover h-30 w-30 ml-2 ng-star-inserted"
+                                            [src]="item.media_url" alt="path" />
+                                
+                                        <video *ngIf="isVideo(item.media_type)" class="relative flex h-30 w-50 ml-2 ng-star-inserted"
+                                            [src]="item.media_url" controls></video>
+                                
+                                        <!-- Delete icon inside the container, positioned relative to the media -->
+                                        <mat-icon [color]="'accent'" class="absolute -top-0 left-0 ml-1 icon-size-4 cursor-pointer"
+                                            [svgIcon]="'heroicons_solid:x-circle'" (click)="deleteMedia(i)"></mat-icon>
+                                    </div>
+                                </ng-container>
+                                
+                                
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="w-2/6  items-center mb-6 sm:mb-0">
+                    <!-- Publishing Options -->
+                    <div class="flex flex-col ml-8 gt-sm:mt-0 gt-sm:ml-16">
+
+                        <span class="font-semibold mb-2">Publishing Options</span>
+
+                        <mat-radio-group class="flex flex-col" [color]="'primary'" [value]="'just-good'"
+                            (change)="radioButtonChange($event)">
+
+                            <mat-radio-button class="mb-2" [value]="'Publish Now'">
+
+                                Publish Now
+
+                            </mat-radio-button>
+
+                            <mat-radio-button class="mb-2" [value]="'Schedule'">
+
+                                Schedule for Specific Date
+
+                            </mat-radio-button>
+
+                            <div *ngIf="schedule" class="flex flex-col ml-2">
+
+                                <mat-form-field>
+
+                                    <input class="ml-2" matInput [ngxMatDatetimePicker]="picker"
+                                        placeholder="Choose a date" [formControl]="dateControl" [min]="minDate"
+                                        [max]="maxDate" [disabled]="disabled" />
+
+                                    <mat-datepicker-toggle matSuffix [for]="picker">
+
+                                    </mat-datepicker-toggle>
+
+                                    <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners"
+                                        [showSeconds]="showSeconds" [stepHour]="stepHour" [stepMinute]="stepMinute"
+                                        [stepSecond]="stepSecond" [touchUi]="touchUi" [color]="color">
+
+                                    </ngx-mat-datetime-picker>
+
+                                </mat-form-field>
+
+                                <mat-checkbox class="mb-2 ml-2" [checked]="true" [color]="'primary'">
+
+                                    Repeat this post
+
+                                </mat-checkbox>
+
+                            </div>
+
+
+
+
+                            <!-- <mat-radio-button class="mb-2" [value]="'Add to Queue'">
+                                Add to Queue
+                            </mat-radio-button>
+
+                            <mat-radio-button [value]="'SmartQ'">
+
+                                Choose a SmartQ Slot
+
+                            </mat-radio-button> -->
+
+                        </mat-radio-group>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="flex items-center  sm:mt-2 -mx-3">
+
+                <!-- Image -->
+
+                <div matTooltip="Photo / Video">
+                    
+                    <input id="image-file-input" class="absolute h-0 w-0 opacity-0 invisible pointer-events-none"
+                        type="file" [multiple]="true" [accept]="'image/jpeg, image/png, video/mp4, video/x-m4v,video/*'"
+                        (change)="uploadMedia(post, imageFileInput.files)" #imageFileInput />
+
+                    <label
+                        class="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-gray-400 hover:bg-opacity-20 dark:hover:bg-black dark:hover:bg-opacity-5"
+                        for="image-file-input" matRipple>
+
+                        <mat-icon [svgIcon]="'heroicons_solid:photograph'"></mat-icon>
+
+                    </label>
+                    
+                      
+
+                </div>
+                
+             
+
+
+              
+                
+               
+
+               
+                  
+                <div class="emoji-picker-wrapper">
+                    <button mat-button class="px-3 mr-1 hidden sm:inline-flex" (click)="toggleEmojiPicker()">😀<span class="ml-2">Feeling</span></button>
+                    <div class="emoji-picker-container" *ngIf="showEmojiPicker">
+                      <div class="emoji-picker-scroll">
+                        <emoji-mart [set]="set" [search]="searchTerm" (emojiSelect)="addEmoji($event)"></emoji-mart>
+                      </div>
+                    </div>
+                  </div>
+
+                
+               
+            </div>
+            
+            <div class="flex items-center justify-end ">
+                <div class="flex items-center justify-start">
+                <div *ngIf="errorMessages && errorMessages.length > 0">
+                  <mat-error *ngFor="let error of errorMessages">{{ error }}</mat-error>
+                </div>
+              </div>
+                <!-- <ng-container *ngIf="!post.id">
+                    <div class="flex items-center justify-end mt-4">
+                        <button class="ml-auto" mat-button [matTooltip]="' Save Draft'" (click)="createPost(post)">
+                            Save Draft
+                        </button>
+                    </div>
+                </ng-container> -->
+
+
+                <!-- <ng-container *ngIf="!post.id"> -->
+                <div class="flex items-center justify-end ">
+                    <button class="ml-2" mat-flat-button [color]="'primary'" [matTooltip]="'Publish'"
+                        (click)="publishPost(post)" [disabled]=" channelList_Selected.length<1" >
+                        Publish
+                    </button>
+                </div>
+                <!-- </ng-container> -->
+                <!-- [disabled]="channelList_Filtred.length > 0 " -->
+
+                <!-- <ng-container *ngIf="!post.id">
+                    <div class="flex items-center justify-end mt-4">
+                        <button class="ml-2" mat-flat-button [color]="'primary'" [matTooltip]="'Save'"
+                            [disabled]="!post.message" (click)="createPost(post)">
+                            Save
+                        </button>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="schedule">
+                    <div class="flex items-center justify-end mt-4">
+                        <button class="ml-2" mat-flat-button [color]="'primary'" [matTooltip]="'Schedule'"
+                            [disabled]="!post.message" (click)="schedulePublication(post)">
+                            Schedule
+                        </button>
+                    </div>
+                </ng-container> -->
+
+            </div>
+
+        </fuse-card>
+    </ng-container>
+</div>

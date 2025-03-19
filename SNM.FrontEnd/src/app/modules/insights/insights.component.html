@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="header">
+      <h1>Social Media Dashboard</h1>
+
+      <select class="form-control" (change)="onAccountSelected()">
+        <option value="">Sélectionner un compte</option>
+        <option value="facebook">Facebook</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="instagram">Instagram</option>
+        <option value="twitter">Twitter</option>
+      </select>
+    </div>
+    <div class="dashboard-container">
+      <div *ngIf="selectedAccount === 'facebook'">
+        <!-- Cartes de statistiques pour Facebook -->
+        <div class="row">
+          <div class="col-md-6" *ngFor="let stat of facebookStats">
+            <div class="stats-card">
+              <h3>{{ stat.label }}</h3>
+              <p>{{ stat.value }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="selectedAccount === 'linkedin'">
+        <!-- Cartes de statistiques pour LinkedIn -->
+        <div class="row">
+          <div class="col-md-6" *ngFor="let stat of linkedinStats">
+            <div class="stats-card">
+              <h3>{{ stat.label }}</h3>
+              <p>{{ stat.value }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="selectedAccount === 'instagram'">
+        <!-- Cartes de statistiques pour Instagram -->
+        <div class="row">
+          <div class="col-md-6" *ngFor="let stat of instagramStats">
+            <div class="stats-card">
+              <h3>{{ stat.label }}</h3>
+              <p>{{ stat.value }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="selectedAccount === 'twitter'">
+        <!-- Cartes de statistiques pour Twitter -->
+        <div class="row">
+          <div class="col-md-6" *ngFor="let stat of twitterStats">
+            <div class="stats-card">
+              <h3>{{ stat.label }}</h3>
+              <p>{{ stat.value }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,21 @@
+.body {
+display: flex;
+align-items: center;
+justify-content: center;
+height: 100vh;
+font-family: Arial, sans-serif;
+background-color: #f3f3f3;
+}
+
+.container {
+text-align: center;
+}
+
+.loading-gif {
+width: 100px;
+height: 100px;
+}
+
+.message {
+margin-top: 20px;
+}

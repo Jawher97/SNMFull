@@ -1,0 +1,631 @@
+<div class="flex flex-col flex-auto md:w-190 md:min-w-160 -m-6">
+
+    <ng-container *ngIf="post$ | async as post">
+
+        <!-- Create Post -->
+
+        <fuse-card class="flex flex-col max-w-190 w-full p-6 sm:p-8 pb-6">
+
+            <!-- Header -->
+
+
+
+
+            <div class="group flex items-center">
+
+                <div
+
+                    class="flex items-center justify-start w-full max-w-3xl mx-auto text-xl font-semibold"
+
+                >
+
+                    Create Post
+
+                </div>
+
+                <!-- Close button -->
+
+                <div
+
+                    class="flex items-center justify-end w-full max-w-3xl mx-auto"
+
+                >
+
+                    <a mat-icon-button matDialogClose [matTooltip]="'Close'">
+
+                        <mat-icon
+
+                            class="text-4xl"
+
+                            [svgIcon]="'heroicons_outline:x'"
+
+                        ></mat-icon>
+
+                    </a>
+
+                </div>
+
+                <!-- <mat-icon
+
+                    class="hidden group-hover:flex ml-auto icon-size-5 cursor-pointer"
+
+                    [svgIcon]="'heroicons_solid:x'"
+
+                    (click)="removeTaskFromPost(post, task)"
+
+                ></mat-icon> -->
+
+            </div>
+
+            <!-- Social Button -->
+
+            <div class="flex items-center mt-6 sm:mt-8 -mx-3">
+
+                <mat-button-toggle-group
+
+                    #group="matButtonToggleGroup"
+
+                    [value]="selectedVal"
+
+                    multiple
+
+                    (change)="onValChange(group.value)"
+
+                >
+
+                    <mat-button-toggle
+
+                        class="px-3 mr-1 hidden sm:inline-flex"
+
+                        value="facebook"
+
+                        mat-button
+
+                    >
+
+                        <mat-icon svgIcon="feather:facebook"></mat-icon>
+
+                    </mat-button-toggle>
+
+                    <mat-button-toggle
+
+                        class="px-3 mr-1"
+
+                        value="instagram"
+
+                        mat-button
+
+                    >
+
+                        <mat-icon svgIcon="feather:instagram"></mat-icon>
+
+                    </mat-button-toggle>
+
+                    <mat-button-toggle
+
+                        class="px-3 mr-1"
+
+                        value="twitter"
+
+                        mat-button
+
+                    >
+
+                        <mat-icon svgIcon="feather:twitter"></mat-icon>
+
+                    </mat-button-toggle>
+
+                    <mat-button-toggle
+                            class="px-3 mr-1 hidden sm:inline-flex"
+                            value="linkedin"
+                            mat-button
+                            [matMenuTriggerFor]="pages">
+                
+                         <mat-icon svgIcon="feather:linkedin"></mat-icon>
+                    </mat-button-toggle>
+                    <mat-menu #pages="matMenu">
+                       <button mat-menu-item *ngFor="let page of pages">
+                          <span class="flex items-center" (click)="onSelectPage(page)">
+                            <mat-icon class="icon-size-5 mr-3" >icon-name</mat-icon>
+                             <span>{{ page.companyName }}</span>
+                          </span>
+                       </button>
+                     </mat-menu>
+                     <mat-button-toggle
+
+                        class="px-3 mr-1"
+
+                        value="linkedin-profile"
+
+                        mat-button>
+
+                        <mat-icon svgIcon="feather:linkedin"></mat-icon>
+
+                    </mat-button-toggle>  
+                </mat-button-toggle-group>
+
+            </div>
+
+           
+
+           
+           <div class="flex flex-row mt-6 ">
+
+            <div class="flex flex-col w-4/6">
+
+                <mat-form-field class="flex flex-col w-full " [subscriptSizing]="'dynamic'">
+
+                    <textarea class=" w-full"
+
+                        matInput
+
+                        [placeholder]="'What\'s on your mind?'"
+
+                        [(ngModel)]="post.message"
+
+                        [rows]="8"
+
+                        cdkScrollable
+
+                        cdkTextareaAutosize
+
+                        cdkAutosizeMaxRows="8"
+
+                    ></textarea>
+
+                </mat-form-field>
+
+                 <!-- Media -->
+
+            <ng-container *ngIf="post.images">
+
+                <div class="flex flex-col mx-6 sm:mx-8 mb-4">                  
+
+                    <div class="flex pt-1">
+
+
+                        <ng-container *ngFor="let item of post?.images" class="relative flex h-20 pr-1">
+
+                            <img *ngIf="!isVideo(item.type)"
+
+                                class="rounded object-cover h-30 w-30 "
+
+                                [src]="item.src"
+
+                                alt="path"
+
+                            />
+
+                            <video *ngIf="isVideo(item.type)"
+
+                            class="relative flex h-30 w-50 "
+
+                            [src]="item.src" controls></video>  
+
+                                         
+
+                        </ng-container>
+
+                       
+
+                    </div>
+
+                </div>
+
+            </ng-container>
+
+            </div>
+
+            <div class="w-2/6  items-center mb-6 sm:mb-0">
+
+                   
+
+                <!-- Publishing Options -->
+
+              <div class="flex flex-col ml-8 gt-sm:mt-0 gt-sm:ml-16">
+
+                  <span class="font-semibold mb-2"
+
+                      >Publishing Options</span
+
+                  >
+
+                  <mat-radio-group
+
+                      class="flex flex-col"
+
+                      [color]="'primary'"
+
+                      [value]="'just-good'"
+
+                      (change)="radioButtonChange($event)"
+
+                  >
+
+                      <mat-radio-button
+
+                          class="mb-2"
+
+                          [value]="'Publish Now'"
+
+                          >
+
+                          Publish Now
+
+                      </mat-radio-button>
+
+                      <mat-radio-button
+
+                          class="mb-2"
+
+                          [value]="'Schedule'"
+
+                      >
+
+                          Schedule for Specific Date
+
+                      </mat-radio-button>
+
+                      <div *ngIf="schedule" class="flex flex-col ml-2">
+
+                          <mat-form-field>
+
+                              <input
+
+                                  class="ml-2"
+
+                                  matInput
+
+                                  [ngxMatDatetimePicker]="picker"
+
+                                  placeholder="Choose a date"
+
+                                  [formControl]="dateControl"
+
+                                  [min]="minDate"
+
+                                  [max]="maxDate"
+
+                                  [disabled]="disabled"
+
+                              />
+
+                              <mat-datepicker-toggle
+
+                                  matSuffix
+
+                                  [for]="picker"
+
+                              >
+
+                              </mat-datepicker-toggle>
+
+                              <ngx-mat-datetime-picker
+
+                                  #picker
+
+                                  [showSpinners]="showSpinners"
+
+                                  [showSeconds]="showSeconds"
+
+                                  [stepHour]="stepHour"
+
+                                  [stepMinute]="stepMinute"
+
+                                  [stepSecond]="stepSecond"
+
+                                  [touchUi]="touchUi"
+
+                                  [color]="color"
+
+                              >
+
+                              </ngx-mat-datetime-picker>
+
+                          </mat-form-field>
+
+                          <mat-checkbox
+
+                              class="mb-2 ml-2"
+
+                              [checked]="true"
+
+                              [color]="'primary'"
+
+                          >
+
+                              Repeat this post
+
+                          </mat-checkbox>
+
+                      </div>
+
+
+
+
+                      <mat-radio-button
+
+                          class="mb-2"
+
+                          [value]="'Add to Queue'"
+
+                      >
+
+                          Add to Queue
+
+                      </mat-radio-button>
+
+                      <mat-radio-button
+
+                      [value]="'SmartQ'">
+
+                          Choose a SmartQ Slot
+
+                      </mat-radio-button>
+
+                  </mat-radio-group>
+
+              </div>
+
+          </div>
+
+         
+
+           </div>
+
+           
+
+            <div class="flex items-center mt-6 sm:mt-8 -mx-3">
+
+                <!-- Image -->
+
+                <div matTooltip="Photo / Video">
+
+                    <input
+
+                        id="image-file-input"
+
+                        class="absolute h-0 w-0 opacity-0 invisible pointer-events-none"
+
+                        type="file"
+
+                        [multiple]="true"
+
+                        [accept]="'image/jpeg, image/png, video/mp4, video/x-m4v,video/*'"
+
+                        (change)="uploadImage(post, imageFileInput.files)"
+
+                        #imageFileInput
+
+                    />
+
+                    <label
+
+                        class="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-gray-400 hover:bg-opacity-20 dark:hover:bg-black dark:hover:bg-opacity-5"
+
+                        for="image-file-input"
+
+                        matRipple
+
+                    >
+
+                        <mat-icon
+
+                            [svgIcon]="'heroicons_solid:photograph'"
+
+                        ></mat-icon>
+
+                    </label>
+
+                </div>
+
+
+
+
+                <button class="px-3 mr-1 hidden sm:inline-flex" mat-button>
+
+                    <mat-icon
+
+                        class="icon-size-5"
+
+                        [svgIcon]="'heroicons_solid:user-circle'"
+
+                    ></mat-icon>
+
+                    <span class="ml-2">Tag Friends</span>
+
+                </button>
+
+
+
+                <button 
+                    class="px-3 mr-1 hidden sm:inline-flex" 
+                    (click)="showEmojiPicker = !showEmojiPicker"
+                    mat-button>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:emoji-happy'">
+                    </mat-icon>
+                    <span class="ml-2">Feeling</span>
+                </button>
+                <ng-container *ngIf="showEmojiPicker">
+                    <emoji-mart class="emoji-mart" (emojiSelect)="addEmoji($event)" title="Choose your emoji"></emoji-mart>
+                </ng-container>
+
+                <!-- <button (click)="isEmojiPickerVisible = !isEmojiPickerVisible;">😀</button>
+                <br /><emoji-mart
+                class="emoji-mart"
+                *ngIf="isEmojiPickerVisible"
+                (emojiSelect)="addEmoji($event)"
+                title="Choose your emoji"
+                ></emoji-mart> -->
+                 
+
+                <button
+
+                    class="px-3"
+
+                    mat-button
+
+                    [matMenuTriggerFor]="postCardMenu01">
+
+                    <mat-icon
+
+                        class="icon-size-5"
+
+                        [svgIcon]="'heroicons_solid:dots-horizontal'"
+
+                    ></mat-icon>
+
+                </button>
+
+                <mat-menu #postCardMenu01="matMenu">
+
+                    <button class="sm:hidden" mat-menu-item>
+
+                        <span class="flex items-center">
+
+                            <mat-icon
+
+                                class="icon-size-5 mr-3"
+
+                                [svgIcon]="'heroicons_solid:user-circle'"
+
+                            ></mat-icon>
+
+                            <span>Tag Friends</span>
+
+                        </span>
+
+                    </button>
+
+                </mat-menu>
+
+            </div>
+
+            <div class="flex items-center justify-end mt-4">
+
+                <ng-container *ngIf="!post.id">
+
+                    <div class="flex items-center justify-end mt-4">
+
+                        <!--  Save Draft -->
+
+                        <button
+
+                            class="ml-auto"
+
+                            mat-button
+
+                            [matTooltip]="' Save Draft'"
+
+                            (click)="createPost(post)"
+
+                        >
+
+                            Save Draft
+
+                        </button>
+
+                    </div></ng-container
+
+                >
+
+                <!-- Schedule [disabled]="contactForm.invalid"-->
+
+                <ng-container *ngIf="!post.id">
+
+                    <div class="flex items-center justify-end mt-4">
+
+                        <button
+
+                            class="ml-2"
+
+                            mat-flat-button
+
+                            [color]="'primary'"
+
+                            [matTooltip]="'Publish'"
+
+                            (click)="publish(post)">
+
+                            Publish
+
+                        </button>
+
+                    </div></ng-container>
+
+                  <!-- Schedule [disabled]="contactForm.invalid"-->
+
+                <ng-container *ngIf="!post.id">
+
+                    <div class="flex items-center justify-end mt-4">
+
+                        <!-- Save -->
+
+                        <button
+
+                            class="ml-2"
+
+                            mat-flat-button
+
+                            [color]="'primary'"
+
+                            [matTooltip]="'Save'"
+
+                            [disabled]="!post.message"
+
+                            (click)="createPost(post)">
+
+
+                            Save
+
+                        </button>
+
+                    </div>
+
+                </ng-container>
+
+                <ng-container *ngIf="schedule">
+
+                    <div class="flex items-center justify-end mt-4">
+
+                        <!-- schedule -->
+
+                        <button
+
+                            class="ml-2"
+
+                            mat-flat-button
+
+                            [color]="'primary'"
+
+                            [matTooltip]="'Schedule'"
+
+                            [disabled]="!post.message"
+
+                            (click)="schedulePublication(post)"
+
+                        >
+
+                        Schedule
+
+                        </button>
+
+                    </div>
+
+                </ng-container>
+
+            </div>
+
+        </fuse-card>
+
+    </ng-container>
+
+</div>
+
+<style>
+
+ 
+
+</style>

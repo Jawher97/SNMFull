@@ -1,0 +1,62 @@
+                 
+    <div class="flex flex-col mt-0.5">
+        <span>
+          <a href={{comment.actorprofilelink}}><b>{{comment.actorUserName}}</b> </a>                            
+            <div class="text-md leading-none text-secondary mt-1">{{comment.actorheadline}}</div><br>
+            <div *ngIf="!isEditing()"><p>{{comment.comment}}</p></div>
+        </span>
+        <commentForm
+                *ngIf="isEditing()"
+                submitLabel="Update"
+                [hasCancelButton]="true"
+                [initialText]="comment.comment"
+                (handleSubmit)="editComment.emit({ text: $event, commentId: comment.commentId })"              
+                (handleCancel)="setActiveComment.emit(null)">
+        </commentForm>
+        
+        <div class="flex items-center text-sm text-secondary mt-2"> 
+            <span 
+              class="mr-2">
+              <mat-icon>thumb_up_alt</mat-icon><span class="mr-2">{{comment.insight.totalLikes}}</span>
+            </span>                
+            <span 
+                    *ngIf="comment.parentId === null"
+                    class="mr-2 cursor-pointer hover:underline" 
+                    (click)="setActiveComment.emit({id: comment.commentId, type:activeCommentType.replying})">
+                    Reply
+            </span>
+
+            <span 
+                    *ngIf="comment.actorUrn === 'urn:li:organization:98526315'"
+                    class="mr-2 cursor-pointer hover:underline" 
+                    (click)="setActiveComment.emit({id: comment.commentId, type:activeCommentType.editing})">
+                    Edit
+            </span>            
+            <span 
+                    *ngIf="comment.actorUrn=== 'urn:li:organization:98526315'"
+                    class="mr-2 cursor-pointer hover:underline"
+                    (click)="deleteComment.emit(comment.commentId)">
+                     Delete
+            </span>
+            <span class="mr-2">&bull;</span>
+            <span>17 min</span>
+        </div>
+        <commentForm 
+              *ngIf="isReplying()"
+              [hasCancelButton]="true"
+              submitLabel="Reply"
+              (handleSubmit)="addComment.emit({ text: $event, entityUrn: replyId })">
+        </commentForm>
+
+    </div>
+
+<ng-container *ngIf="(replies$ | async) as replies">
+    <ng-container *ngFor="let reply of replies; trackBy: trackByFn">
+      <div class="flex items-start mt-8 ml-12">
+        <comment 
+            [comment]="reply"
+            (editComment)="editComment.emit($event)"
+            (deleteComment)="deleteComment.emit($event)"></comment>
+      </div>  
+    </ng-container>
+</ng-container>

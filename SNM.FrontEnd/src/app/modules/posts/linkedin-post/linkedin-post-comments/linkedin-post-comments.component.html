@@ -1,0 +1,60 @@
+
+ <hr class="border-b m-0">
+ <div class="relative flex flex-col">
+ </div>
+        <hr class="border-b mx-4 sm:mx-8 my-0">
+        <div class="max-h-120 overflow-y-auto">
+            <linkedin-post-comment-form
+            submitLabel="Post" 
+            hasCancelButton="true"           ></linkedin-post-comment-form>
+            <div class="relative flex flex-col mx-4 sm:mx-8 my-6">
+               
+                <ng-container *ngFor="let comment of commentsList; trackBy: trackByFn" currentUserId="{{orgId}}">
+                  <linkedin-post-comment 
+                  [comment]="comment" 
+                  [currentUserId]="currentUserId"
+                  [activeComment]="activeComment"
+                  (setActiveComment)="setActiveComment($event)"            
+                  (addComment)="addSubComment($event)"
+                  (editComment)="editComment($event)"
+                  (like)="like($event)"
+                  (unlike)="unlike($event)"
+                  (deleteComment)="deleteComment($event)" >
+                </linkedin-post-comment>
+                    <!-- <div class="relative flex flex-col mx-4 sm:mx-8 my-6">
+                        <div class="flex flex-col">    
+           
+                         <comment 
+                             [comment]="comment" 
+                             [currentUserId]="currentUserId"
+                             [activeComment]="activeComment"
+                             (setActiveComment)="setActiveComment($event)"            
+                             (addComment)="addSubComment($event)"
+                             (editComment)="editComment($event)"
+                             (like)="like($event)"
+                             (unlike)="unlike($event)"
+                             (deleteComment)="deleteComment($event)">
+                         </comment>
+                        </div>
+                      </div>  -->
+                    
+                    
+             
+                <!-- <div class="flex items-start mt-8 ml-12">
+                    <img class="w-8 h-8 rounded-full mr-4" src="assets/images/avatars/female-08.jpg"
+                        alt="Card cover image">
+                    <div class="flex flex-col mt-0.5">
+                        <span>
+                            <b>Barbara Cotilla</b> Count me in !!!
+                        </span>
+                        <div class="flex items-center text-sm text-secondary mt-2">
+                            <span class="mr-2 cursor-pointer hover:underline">Like</span>
+                            <span class="mr-2 cursor-pointer hover:underline">Reply</span>
+                            <span class="mr-2">&bull;</span>
+                            <span>12 min</span>
+                        </div>
+                    </div>
+                </div> -->
+            </ng-container>
+            </div>
+        </div>

@@ -1,0 +1,197 @@
+<div class="flex flex-col w-full">
+
+    <!-- View mode -->
+    <ng-container *ngIf="!editMode" >
+<div class="flex flex-col p-8 pb-4 bg-card justify-center rounded-2xl mt-8 w-200 mx-auto">
+        <!-- Header -->
+        <div class="relative w-full h-40 sm:h-48  bg-accent-100 dark:bg-accent-700">
+            <!-- Photo -->
+            <ng-container >
+                <img class="absolute inset-0 object-cover w-full h-full" *ngIf="brand?.coverPhoto" [src]="brand?.coverPhoto">
+                 <div class="flex items-center justify-center w-full h-full rounded overflow-hidden uppercase text-8xl font-bold leading-none bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                            *ngIf="!brand?.coverPhoto">
+                            {{brand?.displayName.charAt(0)}}
+                        </div>
+            </ng-container>
+            <!-- Close button -->
+            <!-- <div class="flex items-center justify-end w-full max-w-3xl mx-auto pt-6">
+                <a mat-icon-button [matTooltip]="'Close'" [routerLink]="['../']">
+                    <mat-icon class="text-white" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                </a>
+            </div> -->
+        </div>
+
+        <!-- Brand -->
+        <div class="relative flex flex-col flex-auto items-center p-6 pt-0 sm:p-12 sm:pt-0">
+            <div class="w-full max-w-3xl">
+
+                <!-- Avatar and actions -->
+                <div class="flex flex-auto items-end -mt-16">
+                    <!-- Avatar -->
+                    <div
+                        class="flex items-center justify-center w-32 h-32 rounded-full overflow-hidden ring-4 ring-bg-card">
+                        <img class="object-cover w-full h-full" *ngIf="brand?.photo" [src]="brand?.photo">
+                        <div class="flex items-center justify-center w-full h-full rounded overflow-hidden uppercase text-8xl font-bold leading-none bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                            *ngIf="!brand?.photo">
+                            {{brand?.displayName.charAt(0)}}
+                        </div>
+                    </div>
+                    <!-- Actions -->
+                    <div class="flex items-center ml-auto mb-1">
+                        <button mat-stroked-button (click)="toggleEditMode(true)">
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                            <span class="ml-2">Edit</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Display Name -->
+                <div class="mt-3 text-4xl font-bold truncate">{{brand?.displayName}}</div>
+
+
+
+                <div class="flex flex-col mt-4 pt-6 border-t space-y-8">
+                    <!-- Display Name -->
+                    <ng-container *ngIf="brand?.displayName">
+                        <div class="flex sm:items-center">
+                            <mat-icon [svgIcon]="'heroicons_outline:briefcase'"></mat-icon>
+                            <div class="ml-6 leading-6">{{brand?.displayName}}</div>
+                        </div>
+                    </ng-container>
+
+                    <!-- Description -->
+                    <ng-container *ngIf="brand?.description">
+                        <div class="flex">
+                            <mat-icon [svgIcon]="'heroicons_outline:menu-alt-2'"></mat-icon>
+                            <div class="max-w-none ml-6 prose prose-sm" [innerHTML]="brand?.description"></div>
+                        </div>
+                    </ng-container>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </ng-container>
+
+    <!-- Edit mode -->
+    <ng-container *ngIf="editMode">
+        <form [formGroup]="brandForm" class="flex flex-col p-8 pb-4 bg-card justify-center rounded-2xl  w-180 mx-auto">
+        <!-- Header -->
+        <div class="relative  h-40 sm:h-48  bg-accent-100 dark:bg-accent-700">
+            <!-- Cover Photo -->
+         
+           
+                <div class="absolute inset-0 flex items-center justify-center z-20">
+                    <div>
+                      <input id="coverPhoto-file-input"
+                             class="absolute h-0 w-0 opacity-0 invisible pointer-events-none" type="file"
+                             [multiple]="false" [accept]="'image/jpeg, image/png'"
+                             (change)="uploadAvatar(FileInput.files,'coverPhoto')" #FileInput>
+                      <label
+                        class="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-hover"
+                        for="coverPhoto-file-input" matRipple>
+                        <mat-icon class="text-white" [svgIcon]="'heroicons_outline:camera'"></mat-icon>
+                      </label>
+                    </div>
+                    <div>
+                      <button mat-icon-button (click)="removeAvatar('coverPhoto')">
+                        <mat-icon class="text-white" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <img *ngIf="brandForm.get('coverPhoto').value as coverPhoto"
+                       class="absolute items-start   w-full h-full  overflow-hidden" [src]="coverPhoto">
+                  
+                  <div class="flex items-center justify-center w-full h-full rounded overflow-hidden uppercase text-8xl font-bold leading-none bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-300"
+                       *ngIf="!brandForm.get('coverPhoto').value as coverPhoto">
+                    {{brand.displayName.charAt(0)}}
+                  </div>
+                  
+     
+          
+        </div>
+
+        <!-- Brand form -->
+        <div class="relative flex flex-col flex-auto items-center px-6 sm:px-12">
+            <div class="w-full max-w-3xl">
+          
+
+                    <!-- Avatar -->
+                    <div class="flex flex-auto items-end -mt-16">
+                        <div
+                            class="relative flex items-center justify-center w-32 h-32 rounded-full overflow-hidden ring-4 ring-bg-card">
+                            <!-- Upload / Remove avatar -->
+                            <div class="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
+                            <div class="absolute inset-0 flex items-center justify-center z-20">
+                                <div *ngIf="brandForm.get('photo').value as photo">
+                                    <input id="avatar-file-input"
+                                        class="absolute h-0 w-0 opacity-0 invisible pointer-events-none" type="file"
+                                        [multiple]="false" [accept]="'image/jpeg, image/png'"
+                                        (change)="uploadAvatar(avatarFileInput.files,'photo')" #avatarFileInput>
+                                    <label
+                                        class="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-hover"
+                                        for="avatar-file-input" matRipple>
+                                        <mat-icon class="text-white" [svgIcon]="'heroicons_outline:camera'"></mat-icon>
+                                    </label>
+                                </div>
+                                <div>
+                                    <button mat-icon-button (click)="removeAvatar('photo')">
+                                        <mat-icon class="text-white" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Image/Letter -->
+                            <img class="object-cover w-full h-full" *ngIf="brandForm.get('photo').value as photo " [src]="photo">
+                            <div class="flex items-center justify-center w-full h-full rounded overflow-hidden uppercase text-8xl font-bold leading-none bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                            *ngIf="!brandForm.get('photo').value ">
+                                {{brand.displayName.charAt(0)}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Display Name -->
+                    <!-- <div class="flex flex-col p-8 pb-4 bg-card rounded-2xl mr-8 shadow overflow-hidden"> -->
+                    <div class="mt-8">
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Display Name</mat-label>
+                            <mat-icon matPrefix class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:briefcase'"></mat-icon>
+                            <input matInput [formControlName]="'displayName'" [placeholder]="'Display Name'">
+                        </mat-form-field>
+                    </div>
+                    <!-- Description -->
+                    <div class="mt-8">
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Description</mat-label>
+                            <mat-icon matPrefix class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:menu-alt-2'"></mat-icon>
+                            <textarea matInput [formControlName]="'description'" [placeholder]="'Description'" [rows]="5"
+                                [spellcheck]="false" cdkTextareaAutosize></textarea>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Actions -->
+                    <div
+                        class="flex items-center mt-10 -mx-6 sm:-mx-12 py-4 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t ">
+                        <!-- Delete -->
+                        <button mat-raised-button [color]="'warn'" [matTooltip]="'Delete'" (click)="deleteBrand()">
+                            Delete
+                        </button>
+                        <!-- Cancel -->
+                        <button class="ml-auto" mat-raised-button [matTooltip]="'Cancel'" (click)="toggleEditMode(false)">
+                            Cancel
+                        </button>
+                        <!-- Save -->
+                        <button class="ml-2" mat-flat-button [color]="'primary'" [disabled]="brandForm.invalid"
+                            [matTooltip]="'Save'" (click)="updateBrand()">
+                            Save
+                        </button>
+                    </div>
+                <!-- </div> -->
+                
+            </div>
+        </div>
+    </form>
+    </ng-container>
+</div>

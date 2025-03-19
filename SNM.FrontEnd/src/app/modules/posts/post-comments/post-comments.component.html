@@ -1,0 +1,66 @@
+<div class="relative flex flex-col" *ngFor="let comment of comments">
+    <!-- <linkedin-post-comment-form *ngIf="isEditing()" [initialText]="comment.comment"
+        (handleCancel)="setActiveComment.emit(null)" submitLabel="Update"></linkedin-post-comment-form> -->
+
+    <div class="relative flex flex-col ">
+        <div class="flex items-start">
+            <img class="w-8 h-8 rounded-full mr-4" src={{comment?.fromPicture}} alt="Card cover image">
+            <div class="flex flex-col mt-0.5">
+                <span>
+                    <!-- <a href={{comment.actorprofilelink}}>  -->
+                        <b>{{comment?.fromName}}</b>
+                    <!-- </a> -->
+                    <p>{{comment.message}}</p>
+                </span>
+
+                <div class="flex items-center text-sm text-secondary mt-2">
+                    <span class="mr-2 cursor-pointer hover:underline"
+                        >Like</span>
+                    <span class="mr-2 cursor-pointer hover:underline"
+                       >Reply</span>
+                    <span *ngIf="!fuseCard.expanded" class="mr-2 cursor-pointer hover:underline"
+                        (click)="fuseCard.expanded = !fuseCard.expanded">display replies</span>
+                    <span *ngIf="fuseCard.expanded" class="mr-2 cursor-pointer hover:underline"
+                        (click)="fuseCard.expanded = !fuseCard.expanded">Hide replies</span>
+                    <span  class="mr-2 cursor-pointer hover:underline"
+                        >
+                        Delete
+                    </span>
+                    <span class="mr-2">&bull;</span>
+                    <span>{{comment?.createdTime|date:'short'}}</span>
+                </div>
+            </div>
+        </div>
+        <!-- <linkedin-post-comment-form *ngIf="isReplying()" [hasCancelButton]="true" submitLabel="Reply"
+            (handleSubmit)="addComment.emit({ text: $event, entityUrn: replyId })"
+            (handleCancel)="setActiveComment.emit(null)">
+        </linkedin-post-comment-form> -->
+        <fuse-card class="flex flex-col shadow-none m-0" #fuseCard>
+         
+            <!-- <ng-container *ngFor="let subComment of comment.subCommentsList; trackBy: trackByFn"
+                currentUserId="{{orgId}}" fuseCardExpansion>
+                <div class="flex items-start mt-8 ml-12">
+                    <img class="w-8 h-8 rounded-full mr-4" src="assets/images/avatars/female-01.jpg"
+                        alt="Card cover image">
+                    <div class="flex flex-col mt-0.5">
+                        <span>
+                            <a href={{subComment.actorprofilelink}}> <b>{{subComment?.actorUserName}}</b></a>
+                            <p>{{subComment.comment}}</p>
+                        </span>
+                        <div class="flex items-center text-sm text-secondary mt-2">
+                            <span class="mr-2 cursor-pointer hover:underline">Like</span>
+
+                            <span class="mr-2">&bull;</span>
+                            <span>{{comment?.updated_at|date:'short'}}</span>
+                        </div>
+                    </div>
+
+                </div>
+            </ng-container> -->
+            <!-- </div>
+            </ng-container> -->
+        </fuse-card>
+
+    </div>
+
+</div>

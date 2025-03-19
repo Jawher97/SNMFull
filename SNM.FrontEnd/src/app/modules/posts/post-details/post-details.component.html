@@ -1,0 +1,308 @@
+<div class="flex flex-col flex-auto h-full overflow-hidden  bg-card dark:bg-default">
+
+<!-- <fuse-card class="flex flex-col  " #expandableCard02="fuseCard" > -->
+
+             <!-- Header -->
+      
+          
+                <div class="flex flex-0 items-center h-18 px-4 border-b bg-gray-50 dark:bg-transparent ">
+
+                    <button mat-icon-button (click)="onClose()"><mat-icon [svgIcon]="'heroicons_outline:x'"></mat-icon></button>
+                        <!-- <mat-icon [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                    </button> -->
+                    <div class="ml-2 text-lg font-medium">Post Details</div>
+                    <button class="ml-auto " mat-icon-button [matMenuTriggerFor]="postCardMenu02"  *ngIf="selectedPostValue.channelTypeName != 'Instagram Profile'">
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                    </button>
+                    <mat-menu #postCardMenu02="matMenu">
+                        <button mat-menu-item  (click)="DeletePost(selectedPostValue)">
+                            <span class="flex items-center">
+                                <mat-icon class="icon-size-5 mr-3" [svgIcon]="'heroicons_solid:minus-circle'" ></mat-icon>
+                                <span>Delete post</span>
+                            </span>
+                        </button>
+                
+                    </mat-menu>
+                </div>
+                <div class=" overflow-y-auto">
+                <!-- main  -->
+                <div class="flex items-center mx-6 sm:mx-8 mt-6 mb-4">
+
+                    <img class="w-10 h-10 rounded-full mr-4" src="{{(selectedPost$ | async)?.photo|| 'assets/images/avatars/user.png'}}" alt="Card cover image">
+                    <div class="flex flex-col">
+                        <span class="font-semibold leading-none">{{(selectedPost$ | async)?.name}}</span>
+                        <span class="text-sm text-secondary leading-none mt-1">{{(selectedPost$ | async)?.publicationDate|date:'short'}}</span>
+                    </div>
+                </div>
+                <div class="mx-6 sm:mx-8 mt-2 mb-6">
+                    {{(selectedPost$ | async)?.caption}}
+                </div>
+                <div class="grid grid-cols-1 ml-8 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+                    <div  class="relative mb-4" *ngFor="let media of (selectedPost$ | async)?.mediaData" >
+                    
+                        <img *ngIf="media?.media_type==0"
+                        class="h-30 w-80"
+                        src={{media?.media_url}}
+                        alt="Card cover image">
+                    
+                    <video *ngIf="media?.media_type==1"
+                    class="h-60 max-w-140"
+                    src={{media?.media_url}} controls 
+                    alt="Card cover image"></video>
+                    
+                </div>
+                
+                </div>
+                <div class="flex items-center mx-3 sm:mx-5">
+                    <button mat-button [matMenuTriggerFor]="reactionMenu" *ngIf="!selectedPostValue?.isLikedByAuthor && selectedPostValue.channelTypeName!='Instagram Profile'" (click)="CreateReactionPost(selectedPostValue,selectedPostValue?.channelTypeName,selectedPostValue?.channelId)"> <mat-icon class="icon-size-5 text-blue-500">thumb_up_alt</mat-icon>Like</button>
+
+                    <button class="px-3 mr-1"  *ngIf="selectedPostValue?.isLikedByAuthor" mat-button (click)="DeleteReactionPost(selectedPostValue,selectedPostValue.channelTypeName,selectedPostValue.channelId)">
+                        <mat-icon class="icon-size-5 text-blue-500">thumb_down_alt</mat-icon>
+                        <span class="ml-2">Unlike</span>
+                    </button>
+                    <ng-template #like>
+                        <button class="px-3 mr-1"  mat-button>
+                            <mat-icon class="icon-size-5 text-blue-500">thumb_up_alt</mat-icon>
+                            <span class="ml-2">Like</span>
+                        </button>
+                    </ng-template>
+                    <button class="px-3 mr-1"  mat-button>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:chat-alt'"></mat-icon>
+                        <span class="ml-2">Comment</span>
+                    </button>
+                    <!-- <button class="px-3 mr-1" mat-button>
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:share'"></mat-icon>
+                        <span class="ml-2">Share</span>
+                    </button> -->
+                </div>
+                <hr class="border-b mx-6 sm:mx-8 mt-4 mb-6">
+                <div class="flex flex-col sm:flex-row sm:items-center mx-6 sm:mx-8 mb-4 sm:mb-6">
+                    <button mat-button (click)="openDialog(selectedPostValue?.reactions)">{{ (selectedPost$ | async)?.totalCountReactions}}Like</button>
+                
+                    <div class="hidden sm:flex flex-auto"></div>
+                    <div class="flex items-center mt-4 sm:mt-0">
+                        <button class="px-3 mr-1 -ml-2 sm:ml-0" mat-button *ngIf="selectedPostValue.channelTypeName!='LinkedIn'">
+                            {{ (selectedPost$ | async)?.comments?.length}} shares
+                        </button>
+                        <button
+                        class="px-3 sm:-mr-4"
+                        mat-button
+                        (click)="handleButtonClick()">
+                        <span class="mr-1" *ngIf="selectedPost$ | async as selectedPost">
+                            <ng-container *ngIf="selectedPost.comments?.length > 0; else noComments">
+                              {{ selectedPost.comments.length }} Comments
+                            </ng-container>
+                            <ng-template #noComments>
+                              Comments
+                            </ng-template>
+                          </span>
+                        <mat-icon
+                            class="icon-size-5 transition-transform ease-in-out duration-150 rotate-0"
+                            [ngClass]="{'rotate-180': commenttoggle}"
+                            [svgIcon]="'heroicons_solid:chevron-down'"></mat-icon>
+                    </button>
+                    </div>
+                </div>
+                    <!-- comment -->
+                <ng-container *ngIf="expandableCard" >
+                    <hr class="border-b m-0">
+                                <div class="flex flex-col mx-4 sm:mx-8 mt-6 mb-3">
+                                    <div class="flex items-start">
+                                    
+                                        <img
+                                            class="w-12 h-12 rounded-full mr-5"
+                                            src="{{ (selectedPost$ | async)?.photo|| 'assets/images/avatars/user.png'}}"
+                                            alt="Card cover image">
+                                        <mat-form-field
+                                            class="w-full"
+                                            [subscriptSizing]="'dynamic'">
+                                            <textarea (keydown)="handleKeyDown($event, selectedPostValue.postIdAPI,selectedPostValue.fromId,selectedPostValue.channelTypeName,selectedPostValue.channelId)"
+                                            #message="ngModel" id="message" name="message" [(ngModel)]="commentDetails.message"
+                                                matInput
+                                                [placeholder]="'Write a comment...'"
+                                                [rows]="3"
+                                                cdkTextareaAutosize></textarea>
+                                        </mat-form-field>
+                                    </div>
+                                
+                                        <div class="flex flex-col ">
+                                            <div class="flex pt-1 ml-4">
+                                            
+                                                    <div class="relative">
+                                                        <img *ngIf="commentDetails?.photoUrl" class="rounded object-cover h-30 w-30 ml-2 ng-star-inserted"
+                                                            [src]="commentDetails?.photoUrl" alt="path" />
+                                                
+                                                        <video *ngIf="commentDetails?.videoUrl" class="relative flex h-30 w-50 ml-2 ng-star-inserted"
+                                                            [src]="commentDetails?.videoUrl" controls></video>
+                                                
+                                                            <mat-icon [color]="'accent'" *ngIf="commentDetails?.photoUrl" class="absolute -top-0 left-0 ml-1 icon-size-4 cursor-pointer"
+                                                            [svgIcon]="'heroicons_solid:x-circle'" (click)="deleteMedia()"></mat-icon>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    <div class="flex items-center mt-3 ml-auto -mr-3">
+                                        <button [disabled]="!commentDetails.message"  mat-icon-button (click)="CreateComment(selectedPostValue.postIdAPI,selectedPostValue.fromId,selectedPostValue.channelTypeName,selectedPostValue.channelId) ">
+                                            <mat-icon class="icon-size-5 mr-3">add</mat-icon>
+                                            <!-- <span  class="ml-2">Add Comment</span> -->
+                                        </button>
+                                        <!-- Emoji Comment -->
+                                        <div class="emoji-picker-wrapper">
+                                            <button mat-button class="px-3 mr-1 hidden sm:inline-flex" (click)="toggleEmojiPickerComment()">😀<span class="ml-2">Feeling</span></button>
+                                            <div class="emoji-picker-container" *ngIf="showEmojiPickerComment">
+                                            <div class="emoji-picker-scroll">
+                                                <emoji-mart [set]="set" (emojiSelect)="addEmojiComment($event)"></emoji-mart>
+                                            </div>
+                                            </div>
+                                        </div>
+                            
+                                        <div matTooltip="Photo / Video">
+                                                <input id="image-file-input" class="absolute h-0 w-0 opacity-0 invisible pointer-events-none"
+                                                    type="file" [multiple]="true" [accept]="'image/jpeg, image/png, video/mp4, video/x-m4v,video/*'"
+                                                    (change)="uploadMedia( imageFileInput.files)" #imageFileInput />
+
+                                                <label
+                                                    class="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-gray-400 hover:bg-opacity-20 dark:hover:bg-black dark:hover:bg-opacity-5"
+                                                    for="image-file-input" matRipple>
+
+                                                    <mat-icon [svgIcon]="'heroicons_solid:photograph'"></mat-icon>
+
+                                                </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- comment  -->
+                    <hr class="border-b mx-4 sm:mx-8 my-0">
+                    <div class="max-h-120 overflow-y-auto">
+                        <div class="relative flex flex-col mx-4 sm:mx-8 my-6" *ngFor="let comment of  (selectedPost$ | async)?.comments;let i = index">
+                             <div class="flex items-start"   >
+                                <a href="{{comment.linkUrl}}" target="_blank">
+                                <img
+                                    class="w-8 h-8 rounded-full mr-4" 
+                                    src="{{comment?.fromPicture || 'assets/images/avatars/user.png'}}"
+                                    alt="Card cover image"></a>
+                                <div class="flex flex-col mt-0.5">
+                                    <span>
+                                        <a href="{{comment.linkUrl}}" target="_blank">    <b class="mb-2" *ngIf="!isEditingComment || i !== editingCommentIndex">{{ comment?.fromName }}</b></a>
+                                        <mat-form-field
+                                        *ngIf="isEditingComment && i === editingCommentIndex"
+                                        class="w-full" 
+                                        [subscriptSizing]="'dynamic'"> 
+                                        <textarea
+                                        #body="ngModel" id="body" name="body"
+                                        [(ngModel)]="EditingComment"
+                                        matInput
+                                        [placeholder]="'Write a comment...'"
+                                        [rows]="3"
+                                        cdkTextareaAutosize
+                                    ></textarea>   </mat-form-field>
+                                                        <div *ngIf="isEditingComment && i === editingCommentIndex"  class="flex items-center mt-3 ml-auto -mr-3">
+                                                            <button [disabled]="!EditingComment"  mat-icon-button (click)="UpdateComment(selectedPostValue.postIdAPI,selectedPostValue.fromId,selectedPostValue.channelTypeName,selectedPostValue.channelId ,comment) ">
+                                                                <mat-icon class="icon-size-5 mr-3">add</mat-icon>
+                                                            
+                                                            </button>
+                                                            <!-- Emoji Update -->
+                                                            <div class="emoji-picker-wrapper">
+                                                                        <button  mat-button class="px-3 mr-1 hidden sm:inline-flex" (click)="toggleEmojiUpdate()">😀<span class="ml-2">Feeling</span></button>
+                                                                        <div class="emoji-picker-container-update" *ngIf="showEmojiPickerUpdate">
+                                                                        <div class="emoji-picker-scroll">
+                                                                            <emoji-mart [set]="set" (emojiSelect)="addEmojiUpdate($event)"></emoji-mart>
+                                                                        </div>
+                                                                        </div>
+                                                            </div>
+                                                            <div matTooltip="Photo / Video">
+                                                                    <input id="image-file" class="absolute h-0 w-0 opacity-0 invisible pointer-events-none"
+                                                                        type="file" [multiple]="true" [accept]="'image/jpeg, image/png, video/mp4, video/x-m4v,video/*'"
+                                                                        (change)="uploadMedia( imageFileInput.files)" #imageFileInput />
+                                            
+                                                                    <label
+                                                                        class="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-gray-400 hover:bg-opacity-20 dark:hover:bg-black dark:hover:bg-opacity-5"
+                                                                        for="image-file" matRipple>
+                                            
+                                                                        <mat-icon [svgIcon]="'heroicons_solid:photograph'"></mat-icon>
+                                            
+                                                                    </label>
+                                                            </div>
+                                                            <button  *ngIf="isEditingComment && i === editingCommentIndex" mat-flat-button (click)="cancel()">Cancel</button>
+                                                        </div>
+                                                    
+                                                {{ isEditingComment && i === editingCommentIndex ? '' : comment?.message }}
+                                            
+                                                <button 
+                                                *ngIf="!isEditingComment && selectedPostValue.channelTypeName!='Instagram Profile' "
+                                                    class="ml-auto -mr-4"
+                                                    mat-icon-button
+                                                    [matMenuTriggerFor]="postCardMenu03">
+                                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                                                </button>
+                                            
+                                                <mat-menu #postCardMenu03="matMenu">
+                                                    <button mat-menu-item (click)="toggleEditComment(i, comment?.message)">
+                                                        <span class="flex items-center">
+                                                            <mat-icon class="icon-size-5 mr-3" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                                                            <span>Edit</span>
+                                                        </span>
+                                                    </button>
+                                            
+                                                    <button mat-menu-item (click)="DeleteComment(selectedPostValue.postIdAPI,selectedPostValue.fromId,selectedPostValue.channelTypeName,selectedPostValue.channelId,comment.commentId,i)">
+                                                        <span class="flex items-center">
+                                                            <mat-icon class="icon-size-5 mr-3" [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                                                            <span>Delete</span>
+                                                        </span>
+                                                    </button>
+                                                </mat-menu>
+                                            </span>
+                                    <div class="flex items-center" >
+                                    <img *ngIf="comment?.photoUrl"
+                                    width="100%"  
+                                    height="auto"
+                                    src="{{comment?.photoUrl }}"
+                                    >
+                                    <video *ngIf="comment?.videoUrl"
+                                    class="h-auto w-80"
+                                    src="{{comment?.videoUrl }}" controls 
+                                    alt="Card cover image"></video>
+                                
+                                    </div>
+                                    <div class="flex items-center text-sm text-secondary mt-2">
+                                        <span class="mr-2 cursor-pointer hover:underline">  
+                                            
+                                            <button mat-button (click)="openDialogComment(comment?.reactions,comment.likesCount)" > <mat-icon class="icon-size-5 text-blue-500">thumb_up_alt</mat-icon>{{comment?.likesCount}}</button>     </span>
+                                            <span class="mr-2 cursor-pointer hover:underline">     <button mat-button *ngIf="!comment?.isLikedByAuthor && selectedPostValue.channelTypeName!='Instagram Profile'"  (click)="CreateReactionComment(comment,selectedPostValue.channelTypeName,selectedPostValue.channelId,i)" > Like</button>     </span>
+                                            <button class="px-3 mr-1"  *ngIf="comment?.isLikedByAuthor" mat-button (click)="DeleteReactionComment(comment,selectedPostValue.channelTypeName,selectedPostValue.channelId,i)">
+                                            
+                                                <span >Unlike </span>
+                                            </button>
+                                   
+                                        <button
+                                        class="px-3 sm:-mr-4"
+                                        mat-button
+                                        (click)="toggleReplyExpansion(i)">
+                                        
+                                        <span class="mr-2 cursor-pointer hover:underline">{{comment?.replies?.length}} Reply</span>
+                                        <mat-icon
+                                        class="icon-size-5 transition-transform ease-in-out duration-150 rotate-0"
+                                        [ngClass]="{'rotate-180': commentExpanded}"
+
+                                        [svgIcon]="'heroicons_solid:chevron-down'"></mat-icon>
+                                        <span class="mr-2">&bull;</span>
+                                        </button>
+                                        <span>{{ comment?.createdTime| date:'medium'}}</span>
+                                    </div>
+                                
+                                
+                                </div>
+                            </div>
+                           
+                            <app-reply (selectedPostSubjectChange)="updateSelectedPost($event)" [comment]="comment" [selectedPostValue]="selectedPostValue" [replyExpandedStates]="replyExpandedStates" [selectedPostSubject]="selectedPostSubject" [currentIndex]="i"></app-reply>
+                            
+                    </div>
+                            
+                    
+                    </div>
+                </ng-container>
+                <!-- <ng-container fuseCardExpansion>
+                    <app-post-comments [comments]="selectedPost?.comments" ></app-post-comments>
+                </ng-container> -->
+</div>
+<!-- </fuse-card>    -->
+</div>

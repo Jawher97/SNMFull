@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Facebook" Version="7.0.6" />
+    <PackageReference Include="Instagram.Api" Version="1.0.0" />
+    <PackageReference Include="InstagramApiSharp" Version="1.7.4" />
+    <PackageReference Include="InstaSharper" Version="1.4.82" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Connections" Version="1.0.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.32" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="NetArchTest.Rules" Version="1.3.2" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="3.1.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Label="References">
+    <ProjectReference Include="..\..\Core\Instagram.Domain\SNM.Instagram.Domain.csproj" />
+    <ProjectReference Include="..\..\Core\Instagram.Application\SNM.Instagram.Application.csproj" />
+    <ProjectReference Include="..\..\External\Instagram.Presentation\SNM.Instagram.Presentation.csproj" />
+    <ProjectReference Include="..\..\External\Instagram.Infrastructure\SNM.Instagram.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,193 @@
+<ng-container  *ngIf="replyExpandedStates[currentIndex]">
+  
+        <hr class="border-b m-0">
+        <div class="flex items-start mt-8 ml-12" *ngFor="let reply of comment?.replies;let j = index;">
+           
+            
+               
+            
+                <div class="flex pt-1 ml-4">
+            <img
+                class="w-8 h-8 rounded-full mr-4"
+                src="{{reply?.fromPicture || 'assets/images/avatars/user.png'}}"
+                alt="Card cover image">
+            <div class="flex flex-col mt-0.5">
+                <span>
+                 
+                    <b >{{ reply?.fromName }}</b>
+                    <!-- update -->
+                   
+                    <mat-form-field
+                        class="w-full" *ngIf="isEditing && j === editingReplyIndex"
+                        [subscriptSizing]="'dynamic'"> 
+                        <textarea  
+                         [(ngModel)]="editedMessage"
+                            matInput
+                            [placeholder]="'Write a comment...'"
+                            [rows]="3"
+                            cdkTextareaAutosize>  </textarea></mat-form-field>   
+                            <div   *ngIf="isEditing && j === editingReplyIndex" class="flex items-end mt-3 ml-12 ">
+                                <button [disabled]="!editedMessage"  mat-icon-button (click)="UpdateSubComment(selectedPostValue.postIdAPI,selectedPostValue.fromId,selectedPostValue.channelTypeName,selectedPostValue.channelId ,reply,j,currentIndex) ">
+                                    <mat-icon class="icon-size-5 mr-3">add</mat-icon>
+                                  
+                                </button>
+                                <div class="emoji-picker-wrapper">
+                                <button  mat-button class="px-3 mr-1 hidden sm:inline-flex" (click)="toggleEmojiPickerReplyUpdate()">😀<span class="ml-2">Feeling</span></button>
+                                <div class="emoji-picker-container-update" *ngIf="showEmojiPickerUpdateReply">
+                                  <div class="emoji-picker-scroll">
+                                  <emoji-mart [set]="set" (emojiSelect)="addEmojiReplyUpdate($event)"></emoji-mart>
+                                </div>
+                                </div>
+                               </div>
+                               
+                                <div matTooltip="Photo / Video">
+                                        <input id="image-file" class="absolute h-0 w-0 opacity-0 invisible pointer-events-none"
+                                            type="file" [multiple]="true" [accept]="'image/jpeg, image/png, video/mp4, video/x-m4v,video/*'"
+                                            (change)="uploadMediaSuComment( imageFileInput.files)" #imageFileInput />
+                 
+                                        <label
+                                            class="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-gray-400 hover:bg-opacity-20 dark:hover:bg-black dark:hover:bg-opacity-5"
+                                            for="image-file" matRipple>
+                 
+                                            <mat-icon [svgIcon]="'heroicons_solid:photograph'"></mat-icon>
+                 
+                                        </label>
+                                        
+                                </div>
+                                <button  *ngIf="isEditing && j === editingReplyIndex" mat-flat-button (click)="cancel()">Cancel</button>
+
+                            </div>
+                        
+                    <!-- <input *ngIf="isEditing" [(ngModel)]="editedMessage" />  -->
+                  
+                 {{ isEditing && j === editingReplyIndex ? "" : reply?.message }} 
+                
+                    <button 
+                    *ngIf="!isEditing && selectedPostValue.channelTypeName!='Instagram Profile'"
+                        class="ml-auto -mr-4"
+                        mat-icon-button
+                        [matMenuTriggerFor]="postCardMenu03">
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                    </button>
+                
+                    <mat-menu #postCardMenu03="matMenu">
+                        <button mat-menu-item (click)="EditReply(j,reply?.message)">
+                            <span class="flex items-center">
+                                <mat-icon class="icon-size-5 mr-3"  [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                                <span>Edit</span>
+                            </span>
+                        </button>
+                
+                        <button mat-menu-item (click)="DeleteReply(selectedPostValue.postIdAPI,selectedPostValue.fromId,selectedPostValue.channelTypeName,selectedPostValue.channelId,reply,currentIndex)">
+                            <span class="flex items-center">
+                                <mat-icon class="icon-size-5 mr-3" [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                                <span>Delete</span>
+                            </span>
+                        </button>
+                    </mat-menu>
+                </span>
+                
+                    
+                    <div class="flex items-center" >
+                                <img *ngIf="reply?.photoUrl"
+                                width="100%"  
+                                height="auto"
+                                src="{{reply?.photoUrl }}"
+                                >
+                                <video *ngIf="reply?.videoUrl"
+                                width="100%"  
+                                height="auto"
+                                src="{{reply?.videoUrl }}" controls 
+                                alt="Card cover image"></video>
+                   
+                    </div>
+                    
+                <div class="flex items-center text-sm text-secondary mt-2">
+                    <span class="mr-2 cursor-pointer hover:underline"> 
+                        <button mat-button (click)="openDialog(reply?.reactions,reply?.likesCount)" ><mat-icon class="icon-size-5 text-blue-500">thumb_up_alt</mat-icon>{{reply?.likesCount}}</button>
+                        <button mat-button *ngIf="!reply?.isLikedByAuthor && selectedPostValue.channelTypeName!='Instagram Profile'"  (click)="CreateReactionSubComment(comment,selectedPostValue.channelTypeName,selectedPostValue.channelId,i,j)" >Like</button> 
+                        <button class="px-3 mr-1"  *ngIf="reply?.isLikedByAuthor" mat-button (click)="DeleteReactionSubComment(comment,selectedPostValue.channelTypeName,selectedPostValue.channelId,i,j)"> 
+                          
+                            <span class="ml-2">Unlike</span>
+                        </button>
+                    </span>
+                    <button
+                    class="px-3 sm:-mr-4"
+                    mat-button
+                    >
+                   <span class="mr-2 cursor-pointer hover:underline">{{reply?.replies?.length}}Reply</span>
+                   <span class="mr-2">&bull;</span>
+                   </button>
+                    <span class="mr-2">&bull;</span>
+                    <span>{{ reply?.createdTime| date:'medium'}}</span>
+                </div>
+            </div>
+              </div>
+              
+       </div>  
+       <!-- Add reply  -->
+  <br>
+       <div class="flex items-start">
+           <img
+           class="w-12 h-12 rounded-full mr-5"
+           src="{{ selectedPostValue?.photo|| 'assets/images/avatars/user.png'}}"
+           alt="Card cover image">
+       <mat-form-field
+           class="w-full"
+           [subscriptSizing]="'dynamic'">
+           <textarea 
+           #message="ngModel" id="message" name="message" [(ngModel)]="SubcommentDetails.message"
+               matInput
+               [placeholder]="'Write a comment...'"
+               [rows]="3"
+               cdkTextareaAutosize></textarea>
+       </mat-form-field>
+
+ 
+  </div>
+  <br>
+  <div class="flex flex-col ">
+    <div class="flex pt-1 ml-4">
+       
+            <div class="relative">
+                <img *ngIf="SubcommentDetails?.photoUrl" class="rounded object-cover h-30 w-30 ml-2 ng-star-inserted"
+                    [src]="SubcommentDetails?.photoUrl" alt="path" />
+        
+                <video *ngIf="SubcommentDetails?.videoUrl" class="relative flex h-30 w-50 ml-2 ng-star-inserted"
+                    [src]="SubcommentDetails?.videoUrl" controls></video>
+        
+                    <mat-icon [color]="'accent'" *ngIf="SubcommentDetails?.photoUrl" class="absolute -top-0 left-0 ml-1 icon-size-4 cursor-pointer"
+                    [svgIcon]="'heroicons_solid:x-circle'" (click)="deleteMedia()"></mat-icon>
+            </div>
+    </div>
+</div> 
+  <!-- menu Button -->
+     <div class="flex items-end mt-3 ml-8">
+                <button class="ml-8"[disabled]="!comment.message"  mat-icon-button (click)="CreateSubComment(selectedPostValue.postIdAPI,selectedPostValue.fromId,selectedPostValue.channelTypeName,selectedPostValue.channelId ,comment.commentId,comment.commentUrn,currentIndex) ">
+                    <mat-icon class="icon-size-5 mr-3">add</mat-icon>
+                    
+                </button>
+                <div class="emoji-picker-wrapper">
+                      <button  mat-button class="px-3 mr-1 hidden sm:inline-flex" (click)="toggleEmojiPickerReply()">😀<span class="ml-2">Feeling</span></button>
+                        <div class="emoji-picker-container-update" *ngIf="showEmojiPickerReply">
+                            <div class="emoji-picker-scroll">
+                            <emoji-mart [set]="set" (emojiSelect)="addEmoji($event)"></emoji-mart>
+                        </div>
+                     </div>
+                 </div>
+                
+                <div matTooltip="Photo / Video"  >
+                        <input id="image-file" class="absolute h-0 w-0 opacity-0 invisible pointer-events-none"
+                            type="file" [multiple]="true" [accept]="'image/jpeg, image/png, video/mp4, video/x-m4v,video/*'"
+                            (change)="uploadMediaSuComment( imageFileInput.files)" #imageFileInput />
+
+                        <label
+                            class="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-gray-400 hover:bg-opacity-20 dark:hover:bg-black dark:hover:bg-opacity-5"
+                            for="image-file" matRipple>
+
+                            <mat-icon [svgIcon]="'heroicons_solid:photograph'"></mat-icon>
+
+                        </label>
+                </div>
+    </div>
+     </ng-container>

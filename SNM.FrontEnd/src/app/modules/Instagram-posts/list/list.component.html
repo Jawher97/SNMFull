@@ -1,0 +1,143 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+    <mat-drawer-container class="flex-auto h-full bg-card dark:bg-transparent">
+        <mat-drawer-content class="flex flex-col bg-gray-100 dark:bg-transparent">
+            <!-- Main -->
+            <div class="flex flex-col flex-auto p-6 md:p-8">
+                <!-- Header -->
+                <div class="flex items-center">
+                    <div class="mb-6 sm:mb-12">
+                        <mat-button-toggle-group class="flex flex-wrap -m-2" [(ngModel)]="selectedFilter"
+                            (change)="onFilterChange($event)">
+                            <ng-container *ngFor="let filter of filters">
+                                <mat-button-toggle class="m-2" [value]="filter">
+                                    <span class="text-secondary">{{filter | titlecase}}</span>
+                                    <span class="ml-1.5 font-medium text-secondary">({{numberOfCards[filter]}})</span>
+                                </mat-button-toggle>
+                            </ng-container>
+                        </mat-button-toggle-group>
+                    </div>
+                    <button class="ml-4 px-1 sm:px-4 min-w-10" mat-flat-button [color]="'primary'"
+                        (click)="addNewPost()">
+                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
+                        <span class="hidden sm:inline-block ml-2">New post</span>
+                    </button>
+                </div>
+
+
+                    
+                <!--Latest Post-->
+                <ng-container>
+                    <div class="flex-1 px-2 space-y-4">
+                        <fuse-card
+                        class="flex flex-col max-w-160 w-full px-8 pt-6 pb-6 filter-list" style="margin: 16px;">
+                        
+                        <div class="flex items-center mx-6 sm:mx-8 mt-6 mb-4">
+                            <!-- <img
+                                class="w-10 h-10 rounded-full mr-4"
+                                src="'feather:linkedin'"
+                                alt="Card cover image"> -->
+                            <div class="flex flex-col">
+                                <span class="font-semibold leading-none">{{ instagramPosts.username }}</span>
+                                <span class="text-sm text-secondary leading-none mt-1">{{ instagramPosts.timestamp | date:'short' }}</span>
+                            </div>
+                            <button
+                                class="ml-auto -mr-4"
+                                mat-icon-button
+                                [matMenuTriggerFor]="postCardMenu09">
+                                <mat-icon
+                                    class="icon-size-5"
+                                    [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                            </button>
+                            <mat-menu #postCardMenu09="matMenu">
+                                <button mat-menu-item>
+                                    <span class="flex items-center">
+                                        <mat-icon
+                                            class="icon-size-5 mr-3"
+                                            [svgIcon]="'heroicons_solid:save'"></mat-icon>
+                                        <span>Edit post</span>
+                                    </span>
+                                </button>
+                                <button mat-menu-item>
+                                    <span class="flex items-center">
+                                        <mat-icon
+                                            class="icon-size-5 mr-3"
+                                            [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                                        <span>Hide post</span>
+                                    </span>
+                                </button>
+                                <button mat-menu-item>
+                                    <span class="flex items-center">
+                                        <mat-icon
+                                            class="icon-size-5 mr-3"
+                                            [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                                        <span>Snooze for 30 days</span>
+                                    </span>
+                                </button>
+                                <button mat-menu-item>
+                                    <span class="flex items-center">
+                                        <mat-icon
+                                            class="icon-size-5 mr-3"
+                                            [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                                        <span>Hide all</span>
+                                    </span>
+                                </button>
+                                <mat-divider class="my-2"></mat-divider>
+                                <button mat-menu-item>
+                                    <span class="flex items-center">
+                                        <mat-icon
+                                            class="icon-size-5 mr-3"
+                                            [svgIcon]="'heroicons_solid:exclamation'"></mat-icon>
+                                        <span>Report post</span>
+                                    </span>
+                                </button>
+                                <button mat-menu-item>
+                                    <span class="flex items-center">
+                                        <mat-icon
+                                            class="icon-size-5 mr-3"
+                                            [svgIcon]="'heroicons_solid:bell'"></mat-icon>
+                                        <span>Turn on notifications for this post</span>
+                                    </span>
+                                </button>
+                            </mat-menu>
+                        </div>
+
+                      
+
+                        <hr class="border-b mx-6 sm:mx-8 mt-4 mb-6">
+                       
+                        <!-- Media -->
+                        <ng-container *ngIf="instagramPosts.media_url">
+                            <img
+                                class="w-full object-cover"
+                                [src]="instagramPosts.media_url">
+                        </ng-container>
+ <!--  -->
+ 
+ <div class="flex flex-col sm:flex-row sm:items-center mx-6 sm:mx-8 mb-4 sm:mb-6">      
+    <div class="hidden sm:flex flex-auto"></div>
+    <div class="flex items-center mt-4 sm:mt-0">
+        <button
+            class="px-3 mr-1 -ml-2 sm:ml-0" 
+            mat-button>
+             likes
+        </button>
+
+        <button (click)="showComments(instagramPosts)"
+            class="px-3 sm:-mr-3"
+            mat-button>
+            comments
+        </button>
+
+    </div>
+</div>
+
+
+                     </fuse-card>
+                    </div>
+                </ng-container>
+                    
+            </div>
+                
+        </mat-drawer-content>
+    </mat-drawer-container>
+</div>

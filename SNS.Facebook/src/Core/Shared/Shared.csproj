@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <RootNamespace>SNS.Facebook.Shared</RootNamespace>
+        <AssemblyName>SNS.Facebook.Shared</AssemblyName>
+    </PropertyGroup>
+</Project>

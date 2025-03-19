@@ -1,0 +1,123 @@
+<!-- Card #25
+<fuse-card class="flex flex-col max-w-160 w-full px-8 pt-6 pb-6 filter-list" style="margin: 16px;height: 90vh;
+overflow-y: scroll;
+display: block!important;">
+  <div class="flex items-center justify-between">
+       <div class="flex items-center justify-center p-3 rounded-full bg-primary-100 dark:bg-gray-600">
+          <mat-icon class="icon-size-10 text-primary-500 dark:text-primary-300"
+              [svgIcon]="'feather:linkedin'"></mat-icon>
+      </div> 
+      <mat-icon class="icon-size-10 text-primary-500 dark:text-primary-300"
+          ></mat-icon>
+
+    <div>
+        <a>
+            <div class="post-container">
+                <div class="post-header">
+                  <h2><b>{{post.author_username}}</b></h2>
+                </div>
+                <div class="post-content">
+                  <p>{{post.message}}</p>
+                  <ng-container *ngIf="post.photo">
+                    <img
+                        class="w-full object-cover"
+                        [src]="post.mediaUrl">
+                </ng-container>
+                <ng-container *ngIf="post.video">
+                  <video
+                      width="320" height="240" controls
+                      class="w-full object-cover">
+                      <source [src]="post.mediaUrl" type="video/mp4">
+                      Your browser does not support the video tag.                        
+                    </video>
+                </ng-container>
+                    
+                </div>
+                <div class="flex items-center text-sm text-secondary mt-2">  
+                  <span 
+                        *ngIf="!isLikedByAuthor"
+                        class="mr-2 cursor-pointer hover:underline"
+                        (click)="like(post.postId)"><mat-icon>thumb_up_alt</mat-icon>
+                        <span class="flex items-center" >{{post.insight.totalLikes}}</span>
+                  </span> 
+                  <span 
+                        *ngIf="isLikedByAuthor"
+                        class="mr-2 cursor-pointer hover:underline"
+                        (click)="unlike(post.postId)"><mat-icon>thumb_down_alt</mat-icon>
+          
+                  </span> 
+
+                  
+                </div>
+                <!-- <div class="post-footer">
+                 <button (click)="likePost(post.postId)">Like</button>
+                  <p *ngIf="!post.isReshareDisabledByAuthor">
+                    <button (click)="openShareModal()">Reshare</button>
+                  </p>
+                </div> -->
+              <!-- </div>
+        </a>
+    </div>      
+    </div>
+   -->
+      
+      <!-- Card #68 -->
+      <!-- <fuse-card class="flex flex-col max-w-140 w-full filter-post">
+
+        <commentForm
+                submitLabel="Reply"
+                (handleSubmit)="addComment({ text: $event, entityUrn: post.postId })">
+      </commentForm> 
+      
+        <hr class="border-b mx-4 sm:mx-8 my-0">
+        <div class="max-h-120 overflow-y-auto">
+          <ng-container *ngFor="let comment of commentsList; " currentUserId="{{orgId}}"> 
+            <div class="relative flex flex-col mx-4 sm:mx-8 my-6">
+             <div class="flex items-start">    
+
+              <comment 
+                  [comment]="comment" 
+                  [currentUserId]="currentUserId"
+                  [activeComment]="activeComment"
+                  (setActiveComment)="setActiveComment($event)"            
+                  (addComment)="addSubComment($event)"
+                  (editComment)="editComment($event)"
+                  (like)="like($event)"
+                  (unlike)="unlike($event)"
+                  (deleteComment)="deleteComment($event)">
+              </comment>
+             </div>
+           </div>                              
+          </ng-container>
+
+        </div>
+    </fuse-card> -->
+  <!-- </ng-container> -->
+  <!-- Loading template -->
+  <!-- <ng-template #loading>
+      <div class="flex flex-auto flex-col items-center justify-center bg-gray-100 dark:bg-transparent">
+          <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">Loading...</div>
+      </div>
+  </ng-template> -->
+
+
+  <!--Repost modal-->
+  <!-- <ng-template #shareModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Repartager le post</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <textarea [(ngModel)]="sharemessage" placeholder="Ajouter un commentaire"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel')">Annuler</button>
+      <button type="button" class="btn btn-primary" (click)="resharePost(post.postId, post.author_urn)">Repartager</button>
+    </div>
+  </ng-template>
+  
+
+  
+</fuse-card> --> -->

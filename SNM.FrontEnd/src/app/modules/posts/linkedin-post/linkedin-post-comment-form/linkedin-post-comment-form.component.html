@@ -1,0 +1,82 @@
+<form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="flex flex-col mx-0 sm:mx-4 mt-6 mb-3">
+        <!-- <div class="flex items-start"> -->
+            <div class="flex">
+            <img class="w-12 h-12 rounded-full mr-5" src="assets/images/avatars/brian-hughes.jpg"
+                alt="Card cover image">
+            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                <textarea matInput [rows]="2" [placeholder]="'Write a comment...'" formControlName="title"
+                    cdkTextareaAutosize></textarea>
+            </mat-form-field>
+        </div>
+            <!-- <div class="flex items-center mt-3 ml-auto -mr-3">
+                <button mat-icon-button>
+                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:sparkles'"></mat-icon>
+                </button>
+                <button mat-icon-button>
+                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:emoji-happy'"></mat-icon>
+                </button>
+                <button mat-icon-button>
+                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:photograph'"></mat-icon>
+                </button><button mat-icon-button *ngIf="hasCancelButton" type="button">
+                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:sparkles'"></mat-icon>
+                </button>
+                <button mat-raised-button type="submit" [disabled]="form.invalid" color="primary">
+                    {{submitLabel}}
+                </button>
+                <button *ngIf="hasCancelButton" mat-raised-button type="submit" [disabled]="form.invalid" color="disabled"
+                    (click)="handleCancel.emit()">
+                    Cancel
+                </button>
+            </div> -->
+    </div>
+     <!-- Actions -->
+     <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
+        <div class="-ml-2">
+            <!-- Attach file -->
+            <button mat-icon-button>
+                <mat-icon
+                    class="icon-size-5"
+                    [svgIcon]="'heroicons_solid:paper-clip'"></mat-icon>
+            </button>
+            <!-- Insert link -->
+            <button mat-icon-button>
+                <mat-icon
+                    class="icon-size-5"
+                    [svgIcon]="'heroicons_solid:link'"></mat-icon>
+            </button>
+            <!-- Insert emoji -->
+            <button mat-icon-button>
+                <mat-icon
+                    class="icon-size-5"
+                    [svgIcon]="'heroicons_solid:emoji-happy'"></mat-icon>
+            </button>
+            <!-- Insert image -->
+            <button mat-icon-button>
+                <mat-icon
+                    class="icon-size-5"
+                    [svgIcon]="'heroicons_solid:photograph'"></mat-icon>
+            </button>
+        </div>
+
+        <div class="flex items-center mt-4 sm:mt-0">
+            <!-- Discard -->
+            <button
+                class="ml-auto sm:ml-0 sm:mx-3"
+                mat-stroked-button
+                (click)="handleCancel.emit()"
+                >
+                Discard
+            </button>
+            <!-- Send -->
+            <button
+                class="order-first sm:order-last"
+                mat-flat-button
+                [disabled]="form.invalid"
+                [color]="'primary'"
+                (click)="send()">
+                {{submitLabel}}
+            </button>
+        </div>
+    </div>
+</form>

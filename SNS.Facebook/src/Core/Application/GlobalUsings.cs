@@ -1,0 +1,17 @@
+global using Ardalis.Specification;
+global using FluentValidation;
+global using MediatR;
+global using Microsoft.Extensions.Localization;
+global using Microsoft.Extensions.Logging;
+global using SNS.Facebook.Application.Common.Events;
+global using SNS.Facebook.Application.Common.Exceptions;
+global using SNS.Facebook.Application.Common.FileStorage;
+global using SNS.Facebook.Application.Common.Interfaces;
+global using SNS.Facebook.Application.Common.Models;
+global using SNS.Facebook.Application.Common.Persistence;
+global using SNS.Facebook.Application.Common.Specification;
+global using SNS.Facebook.Application.Common.Validation;
+global using SNS.Facebook.Domain.Catalog;
+global using SNS.Facebook.Domain.Common;
+global using SNS.Facebook.Domain.Common.Contracts;
+global using SNS.Facebook.Shared.Notifications;

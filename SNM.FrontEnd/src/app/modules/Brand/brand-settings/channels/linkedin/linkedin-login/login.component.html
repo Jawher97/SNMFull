@@ -1,0 +1,23 @@
+<!-- Card #25 -->
+<ng-container>
+<!-- Card #25 -->
+<fuse-card class="flex flex-col max-w-80 w-full px-8 pt-6 pb-6 filter-list" style="margin: 16px;">
+    <div class="flex items-center justify-between">
+
+        <mat-icon class="icon-size-10 text-primary-500 dark:text-primary-300"
+            [svgIcon]="'feather:linkedin'"></mat-icon>
+
+        <div class="flex flex-col">
+            <div class="text-2xl font-semibold leading-tight">LinkedIn Profile</div>
+            <div class="text-md text-secondary">London, UK</div>
+        </div>
+    </div>
+    
+    <div class="text-2xl font-semibold leading-tight text-center mt-6">
+        <a class="px-6" mat-flat-button [color]="'primary'" (click)="connected ? logOut() : login()">
+          {{ connected ? 'Disconnect' : 'Connect With LinkedIn' }}
+        </a>
+      </div>
+      
+</fuse-card>
+</ng-container>

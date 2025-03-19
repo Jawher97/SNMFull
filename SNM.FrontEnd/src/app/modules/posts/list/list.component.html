@@ -1,0 +1,147 @@
+<div class="relative flex flex-auto w-full min-w-0 overflow-hidden">
+        <mat-drawer-container
+        class="flex-auto h-full "
+            >
+          <!-- Drawer -->
+          <mat-drawer class="w-full sm:w-128 lg:border-r lg:shadow-none dark:bg-gray-900" 
+                [mode]="drawerMode"
+                [opened]="false"
+                [position]="'end'"
+                [disableClose]="true"
+                #matDrawer>
+      <app-post-details *ngIf="selectedPost" [matDrawer]="matDrawer" [selectedPost]="selectedPost"></app-post-details>
+    </mat-drawer>
+
+            <mat-drawer-content class="flex  overflow-hidden"  >
+                <ng-container *ngIf="updatedPosts && updatedPosts.length > 0; else noPosts" >
+                    <div class="grid grid-cols-1 ml-6 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                    <div *ngFor="let post of (Posts$| async) " class="flex-1 px-2 space-y-4">
+                        <!-- <button mat-button (click)="openDrawer(post)"> open</button> -->
+                       
+                       <fuse-card 
+                        class="flex flex-col max-w-140 w-full px-8 pt-6 pb-6 filter-list" >
+                       
+                        <div  class="flex items-center mx-6 sm:mx-8 mt-6 ">
+                            <div class="image-container w-20 h-20">
+                                <img class="image w-10 h-10 rounded-full" src="{{ post?.photo }}" alt="Card cover image">
+                                <mat-icon class="overlay-icon icon-size-7 text-primary-500 dark:text-primary-300 bg-gray-200 rounded-full" [svgIcon]="'feather:' + post.channelTypephoto"></mat-icon>
+                              </div>
+                               
+                            <div class="flex flex-col mr-8 mb-8">
+                                 <span class="font-semibold leading-none">{{post?.name}}</span>
+                                <span class="text-sm text-secondary leading-none mt-1">{{post?.publicationDate| date:'medium'}}</span>
+                            </div>
+                            <button
+                                    class="ml-auto -mr-4" *ngIf="post.channelTypeName != 'Instagram Profile'"
+                                    mat-icon-button
+                                    [matMenuTriggerFor]="postCardMenu09">
+                                                    <mat-icon
+                                                        class="icon-size-5"
+                                                        [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                                </button>
+                        <mat-menu #postCardMenu09="matMenu" >
+                            <button (click)="DeletePost(post)" mat-menu-item >
+                                <span class="flex items-center">
+                                    <mat-icon
+                                        class="icon-size-5 mr-3"
+                                        [svgIcon]="'heroicons_solid:save'"></mat-icon>
+                                    <span>Delete post</span>
+                                </span>
+                            </button>
+                              
+                            </mat-menu>
+                        </div>
+
+                        <ng-container>
+                            <div class="mx-6 sm:mx-8  mb-6" >
+                                {{post?.caption}} 
+                            </div>
+                        </ng-container>
+
+                        <!-- <hr class="border-b mx-6 sm:mx-8 mt-4 mb-6"> -->
+                        <div class="relative-img mb-4" (click)="openDrawer(post)">
+                            <img *ngIf="post?.mediaData[0]?.media_type === 0"
+                                 [src]="post?.mediaData[0]?.media_url"
+                                 alt="Card cover image"
+                                 class="img-fluid img-thumbnail w-100 h-60 "
+                                >
+                       
+                       
+                          <!-- <div
+                               class="absolute bottom-0 left-0 flex items-center justify-center w-8 h-8 m-4 rounded-full cursor-pointer bg-gray-700"
+                               [matTooltip]="'Barmouth / UK'"
+                               [matTooltipPosition]="'right'">
+                               <mat-icon
+                                   class="icon-size-4 text-gray-100"
+                                   [svgIcon]="'heroicons_solid:location-marker'"></mat-icon>
+                           </div>  -->
+                           <video *ngIf="post?.mediaData[0]?.media_type==1"
+                           class="h-60 w-100 object-cover video-shadow"
+                           src={{post?.mediaData[0]?.media_url}} controls 
+                           alt="Card cover image"></video>
+                       </div>                                          
+                            <div  class="d-flex flex-column justify-content-start items-start mt-4 sm:mt-0 mr-8">
+                              <button class="px-3 mr-1 -ml-2 sm:ml-0 mat-button">
+                                reactions <b>{{post?.reactions?.length}}</b> 
+                              </button>
+                             
+                             
+                              <br>
+                              <button class="px-3 mr-1 -ml-2 sm:ml-0 mat-button">
+                                Engagement <b>{{post?.postEngagedUsers}}</b> 
+                              </button>
+                              <br> <button class="px-3 mr-1 -ml-2 sm:ml-0 mat-button" *ngIf="post.channelTypeName!='LinkedIn'">
+                                shares <b>{{post?.reactions?.length}}</b>
+                              </button>
+                              <br>
+                              <button class="px-3 mr-1 -ml-2 sm:ml-0 mat-button" *ngIf="post.channelTypeName!='LinkedIn'">
+                                Personnes touchées <b>{{post?.postClicks}}</b> 
+                              </button>
+                              <!-- <button (click)="showComments()" class="px-3 sm:-mr-3 mat-button">
+                                comments  <b>{{post?.comments?.length}}</b>
+                              </button> -->
+                              <br>
+                              <button 
+                                *ngIf="latestPost?.video"
+                                class="px-3 mr-1 -ml-2 sm:ml-0 mat-button">
+                                <b>{{latestPost?.insight.videoViews}}</b> views
+                              </button>
+                            </div>
+                          <!-- </div> -->
+                          
+                          
+                        <!-- Media -->
+                        <ng-container *ngIf="latestPost?.photo">
+                            <img
+                                class="w-full object-cover"
+                                [src]="latestPost?.mediaUrl">
+                        </ng-container>
+                        <ng-container *ngIf="latestPost?.video">
+                          <video
+                              width="320" height="240" controls
+                              class="w-full object-cover">
+                              <source [src]="latestPost?.mediaUrl" type="video/mp4">
+                              Your browser does not support the video tag.                        
+                            </video>
+                        </ng-container>
+                     </fuse-card>
+                    </div>
+                    </div>
+                </ng-container>
+
+                <!-- No posts template -->
+                <ng-template #noPosts>
+                    <div class="flex flex-auto flex-col items-center justify-center bg-gray-100 dark:bg-transparent ml-130 mt-50">
+                        <mat-icon
+                            class="icon-size-24"
+                            [svgIcon]="'heroicons_outline:document'"></mat-icon>
+                        <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">There are no posts!</div>
+                    </div>
+                </ng-template>
+
+          
+
+            </mat-drawer-content>
+ 
+        </mat-drawer-container>
+</div>
